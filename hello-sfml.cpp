@@ -22,7 +22,7 @@ int main()
     Sprite perso1[4][2];
     int a=0,b=0;//orientatio perso
 
-    if (!image.LoadFromFile("resources/ennemi.png")) // Si le chargement du fichier a échoué
+    if (!image.LoadFromFile("ressources/ennemi.png")) // Si le chargement du fichier a échoué
     {
         cout<<"Erreur durant le chargement de l'image"<<endl;
      return EXIT_FAILURE; // On ferme le programme
