@@ -44,7 +44,7 @@ else // Si le chargement de l'image a réussi
 		}
 	}
 }
-int a=0, b=0;
+
 while (window.isOpen())
 {
 	sf::Event event;
@@ -53,14 +53,14 @@ while (window.isOpen())
 		if (event.type == sf::Event::Closed)
 			window.close();
 
-		if (window.getInput().IsKeyDown(sf::Key::Left)) a=2;
+		/*if (window.getInput().IsKeyDown(sf::Key::Left)) a=2;
 		if (window.getInput().IsKeyDown(sf::Key::Right)) a=3;
 		if (window.getInput().IsKeyDown(sf::Key::Up)) a=0;
 		if (window.getInput().IsKeyDown(sf::Key::Down)) a=1;
 
 
 		if(b==0) b=1;
-		else b=0;
+		else b=0;*/
 	}
 
 	window.clear();
