@@ -7,6 +7,7 @@ using namespace std;
 
 // Constantes
 #define AGRANDISSEMENT 6
+#define DIV_FREQ_ANIMATION 4
 
 int main()
 {
@@ -14,10 +15,13 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
 	
-	Texture texture;
+	Texture texture[4][2];
 	Image image;
-	Sprite perso1[4][2];
+	Sprite perso1;
+
+
 	int a=0,b=0;//orientatio perso
+	int compteurAnimation=0;
 
 if (!image.loadFromFile("ressources/ennemi.png")) // Si le chargement du fichier a échoué
 {
@@ -28,22 +32,20 @@ else // Si le chargement de l'image a réussi
 {	
 	Color bleu_transparence = Color(0,0,255);
 	image.createMaskFromColor(bleu_transparence,0);
-	texture.loadFromImage(image);//faire un tableau de textre
-	texture.setSmooth(false);
-
+	
 	int i,j;
 	for(i=0;i<4;i++)
 	{
 		for(j=0;j<2;j++)
 		{
-
-			perso1[i][j].setTexture(texture);
-			perso1[i][j].setTextureRect(IntRect((i*texture.getSize().y)/4, (j*texture.getSize().x)/2, ((i+1)*texture.getSize().x)/4, ((j+1)*texture.getSize().y)/2));
-			perso1[i][j].setScale(AGRANDISSEMENT,AGRANDISSEMENT);
-			
+			texture[i][j].loadFromImage(image,IntRect((i*image.getSize().x)/4, (j*image.getSize().y)/2, (image.getSize().x)/4, (image.getSize().y)/2));
+			texture[i][j].setSmooth(false);	
 		}
 	}
 }
+
+perso1.setTexture(texture[0][0]);
+perso1.setScale(AGRANDISSEMENT,AGRANDISSEMENT);
 
 while (window.isOpen())
 {
@@ -53,19 +55,49 @@ while (window.isOpen())
 		if (event.type == sf::Event::Closed)
 			window.close();
 
-		/*if (window.getInput().IsKeyDown(sf::Key::Left)) a=2;
-		if (window.getInput().IsKeyDown(sf::Key::Right)) a=3;
-		if (window.getInput().IsKeyDown(sf::Key::Up)) a=0;
-		if (window.getInput().IsKeyDown(sf::Key::Down)) a=1;
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+    		// la touche "flèche gauche" est enfoncée : on bouge le personnage
+   			//character.move(1, 0);
+			a=2;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+    		// la touche "flèche droite" est enfoncée : on bouge le personnage
+   			//character.move(1, 0);
+			a=3;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+    		// la touche "flèche haut" est enfoncée : on bouge le personnage
+   			//character.move(1, 0);
+			a=0;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		{
+    		// la touche "flèche bas" est enfoncée : on bouge le personnage
+   			//character.move(1, 0);
+			a=1;
+		}
 
-		if(b==0) b=1;
-		else b=0;*/
+		compteurAnimation++;
+		if(compteurAnimation == DIV_FREQ_ANIMATION) 
+		{
+			b=!b;
+			compteurAnimation=0;
+		}
+
+		perso1.setTexture(texture[a][b]);
+		
 	}
+
+	
+
 
 	window.clear();
 
-	window.draw(perso1[a][b]);
+	window.draw(perso1);
 
 	window.display();
 }
