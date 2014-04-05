@@ -76,7 +76,7 @@ int main()
 	}
 
 
-	Texture texture_background[4];
+	Texture texture_background[5];
 	Image image_background;
 	
 	if (!image_background.loadFromFile("ressources/background_base1.png")) // Si le chargement du fichier a échoué
@@ -93,8 +93,9 @@ int main()
 			texture_background[k].setSmooth(false);	
 		}
 	}
-	int **tab_background=mappageBackground();
-	Sprite **background=createSpritesBackground(tab_background, texture_background);
+	//int **tab_background=mappageBackground();
+	Sprite background[NB_WINDOW_TUILES_X][NB_WINDOW_TUILES_Y];//=createSpritesBackground(tab_background, texture_background);
+	background[0][0].setTexture(texture_background[0]);
 
 	perso1.setTexture(texture[0][0]);
 	perso1.setScale(AGRANDISSEMENT,AGRANDISSEMENT);
@@ -141,7 +142,7 @@ int main()
 				compteurAnimation=0;
 			}
 
-			perso1.setTexture(texture[0][0]);//le putain de perso charge ue sprite du background en 0 0 ?????!!! wtf!!!
+			perso1.setTexture(texture[a][b]);//le putain de perso charge ue sprite du background en 0 0 ?????!!! wtf!!!
 
 		}
 
@@ -149,7 +150,7 @@ int main()
 
 		window.draw(perso1);
 
-		//		window.draw(background[0][0]);	//-->seg fault revoir le chargement des sprites		
+		window.draw(background[0][0]);	//-->seg fault revoir le chargement des sprites		
 
 		window.display();
 	}
@@ -217,7 +218,7 @@ int** mappageBackground()
 
 Sprite** createSpritesBackground(int **tab, Texture *texture)
 {
-	Sprite **Sprite=createSpriteTable(NB_WINDOW_TUILES_X, NB_WINDOW_TUILES_Y);
+	Sprite **Sprite=createSpriteTable(NB_WINDOW_TUILES_Y, NB_WINDOW_TUILES_X);
 	int i, j;
 	for(i=0;i<NB_WINDOW_TUILES_Y;i++)
 	{	
