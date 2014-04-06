@@ -11,7 +11,7 @@ using namespace sf;
 using namespace std; 
 
 // Constantes
-#define AGRANDISSEMENT 6
+#define AGRANDISSEMENT 2
 #define DIV_FREQ_ANIMATION 4
 
 #define TUILE_W 16
@@ -78,7 +78,8 @@ int main()
 
 	Texture texture_background[5];
 	Image image_background;
-	
+	int **tab_background=mappageBackground();
+
 	if (!image_background.loadFromFile("ressources/background_base1.png")) // Si le chargement du fichier a échoué
 	{
 		cout<<"Erreur durant le chargement de l'image"<<endl;
@@ -93,9 +94,8 @@ int main()
 			texture_background[k].setSmooth(false);	
 		}
 	}
-	//int **tab_background=mappageBackground();
-	Sprite background[NB_WINDOW_TUILES_X][NB_WINDOW_TUILES_Y];//=createSpritesBackground(tab_background, texture_background);
-	background[0][0].setTexture(texture_background[0]);
+
+	Sprite **background = createSpritesBackground(tab_background,texture_background);
 
 	perso1.setTexture(texture[0][0]);
 	perso1.setScale(AGRANDISSEMENT,AGRANDISSEMENT);
@@ -110,47 +110,53 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			if (event.type == sf::Event::KeyPressed )
 			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+					window.close();
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				{
     			// la touche "flèche gauche" est enfoncée : on bouge le personnage
-				perso1.move(-vitessePerso, 0);
-				a=2;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			{
+					perso1.move(-vitessePerso, 0);
+					a=2;
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				{
     			// la touche "flèche droite" est enfoncée : on bouge le personnage
-				perso1.move(vitessePerso, 0);
-				a=3;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			{
+					perso1.move(vitessePerso, 0);
+					a=3;
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				{
     			// la touche "flèche haut" est enfoncée : on bouge le personnage
-				perso1.move(0, -vitessePerso);
-				a=0;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-			{
+					perso1.move(0, -vitessePerso);
+					a=0;
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+				{
     			// la touche "flèche bas" est enfoncée : on bouge le personnage
-				perso1.move(0, vitessePerso);
-				a=1;
+					perso1.move(0, vitessePerso);
+					a=1;
+				}
+
+				compteurAnimation++;
+				if(compteurAnimation == DIV_FREQ_ANIMATION) 
+				{
+					b=!b;
+					compteurAnimation=0;
+				}
+
+				perso1.setTexture(texture[a][b]);
+
 			}
-
-			compteurAnimation++;
-			if(compteurAnimation == DIV_FREQ_ANIMATION) 
-			{
-				b=!b;
-				compteurAnimation=0;
-			}
-
-			perso1.setTexture(texture[a][b]);//le putain de perso charge ue sprite du background en 0 0 ?????!!! wtf!!!
-
 		}
 
 		window.clear();
 
-		window.draw(perso1);
+		drawBackground(&window, background);
 
-		window.draw(background[0][0]);	//-->seg fault revoir le chargement des sprites		
+		window.draw(perso1);
 
 		window.display();
 	}
@@ -163,9 +169,9 @@ int main()
 
 int** mappageBackground()
 {
-	int **tab=createTable(NB_WINDOW_TUILES_X, NB_WINDOW_TUILES_Y);
+	int **tab=createTable(NB_WINDOW_TUILES_Y, NB_WINDOW_TUILES_X);
 
-
+	cout<<endl;
 	int i, j;
 	for(i=0;i<NB_WINDOW_TUILES_Y;i++)
 	{	
@@ -212,41 +218,53 @@ int** mappageBackground()
 		cout<<endl;
 
 	}
+	cout<<endl;
 	return tab;
 }
 
 
 Sprite** createSpritesBackground(int **tab, Texture *texture)
 {
-	Sprite **Sprite=createSpriteTable(NB_WINDOW_TUILES_Y, NB_WINDOW_TUILES_X);
-	int i, j;
-	for(i=0;i<NB_WINDOW_TUILES_Y;i++)
+	//background;
+
+	Sprite** background = new Sprite*[NB_WINDOW_TUILES_Y];
+	for (int o = 0; o < NB_WINDOW_TUILES_Y; o++)
+		background[o] = new Sprite[NB_WINDOW_TUILES_X];
+
+	//cout<<endl;
+	int c, d;
+	for(c=0;c<NB_WINDOW_TUILES_Y;c++)
 	{	
-		for(j=0;j<NB_WINDOW_TUILES_X;j++)
+		for(d=0;d<NB_WINDOW_TUILES_X;d++)
 		{
-			if(tab[i][j]==0)
+			if(tab[c][d]==0)
 			{
-				Sprite[i][j].setTexture(texture[1]);
+				background[c][d].setTexture(texture[1]);
 			}
-			else if(tab[i][j]==1)
+			else if(tab[c][d]==1)
 			{
-				Sprite[i][j].setTexture(texture[2]);
+				background[c][d].setTexture(texture[2]);
 			}
-			else if(tab[i][j]==2)
+			else if(tab[c][d]==2)
 			{
-				Sprite[i][j].setTexture(texture[3]);
+				background[c][d].setTexture(texture[3]);
 			}
-			else if(tab[i][j]==3)
+			else if(tab[c][d]==3)
 			{
-				Sprite[i][j].setTexture(texture[4]);
+				background[c][d].setTexture(texture[4]);
 			}
 			else
 			{
-				Sprite[i][j].setTexture(texture[0]);
+				background[c][d].setTexture(texture[0]);
 			}
-			Sprite[i][j].setPosition (i*TUILE_H,j*TUILE_W);
+			background[c][d].setPosition (AGRANDISSEMENT*d*TUILE_W,AGRANDISSEMENT*c*TUILE_H);
+			background[c][d].setScale(AGRANDISSEMENT,AGRANDISSEMENT);
+			//cout<<tab[c][d];
 		}
+		//cout<<endl;
 	}
+	//cout<<endl;
+	return background;
 }
 
 void drawBackground(RenderWindow *window, Sprite **sprite)
@@ -278,20 +296,5 @@ void freeTable(int **tableau)
 	free(tableau);
 }
 
-Sprite **createSpriteTable(int nbLin, int nbCol)
-{
-	Sprite **tableau = (Sprite **)malloc(sizeof(Sprite*)*nbLin);
-	Sprite *tableau2 = (Sprite *)malloc(sizeof(Sprite)*nbCol*nbLin);
-	for(int i = 0 ; i < nbLin ; i++){
-		tableau[i] = &tableau2[i*nbCol];
-	}
-	return tableau;
-}
-
-void freeSpriteTable(Sprite **tableau)
-{
-	free(tableau[0]);
-	free(tableau);
-}
 
 //-----fin développement des fonctions--------------------------------------------------------------------------------------------------------
