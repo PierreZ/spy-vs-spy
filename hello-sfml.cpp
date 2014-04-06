@@ -76,7 +76,7 @@ int main()
 	}
 
 
-	Texture texture_background[5];
+	Texture texture_background[9];
 	Image image_background;
 	int **tab_background=mappageBackground();
 
@@ -88,7 +88,7 @@ int main()
 	else // Si le chargement de l'image a réussi
 	{	
 		int k;
-		for(k=0;k<5;k++)
+		for(k=0;k<9;k++)
 		{
 			texture_background[k].loadFromImage(image_background,IntRect(k*TUILE_W, 0, TUILE_W , TUILE_H));
 			texture_background[k].setSmooth(false);	
@@ -252,6 +252,22 @@ Sprite** createSpritesBackground(int **tab, Texture *texture)
 			else if(tab[c][d]==3)
 			{
 				background[c][d].setTexture(texture[4]);
+			}
+			else if(tab[c][d]==4)
+			{
+				background[c][d].setTexture(texture[5]);
+			}
+			else if(tab[c][d]==5)
+			{
+				background[c][d].setTexture(texture[6]);
+			}
+			else if(tab[c][d]==6)
+			{
+				background[c][d].setTexture(texture[7]);
+			}
+			else if(tab[c][d]==7)
+			{
+				background[c][d].setTexture(texture[8]);
 			}
 			else
 			{
