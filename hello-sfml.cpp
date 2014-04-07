@@ -26,7 +26,7 @@ using namespace std;
 //-----définitions des prototypes des fonctions--------------------------------------------------------------------------------------------------------
 
 int** mappageBackground();
-Sprite** createSpritesBackground(int **tab, Texture *texture);
+Sprite** createSpritesBackground(int **tab, Texture **texture);
 void drawBackground(RenderWindow *window, Sprite **sprite);
 
 int **createTable(int nbLin, int nbCol); 
@@ -34,6 +34,8 @@ void freeTable(int **tableau);
 
 Sprite **createSpriteTable(int nbLin, int nbCol); 
 void freeSpriteTable(Sprite **tableau);
+
+Texture** loadTexture(string name_image, int nb_col, int nb_lin);
 
 //-----fin définitions des prototypes des fonctions--------------------------------------------------------------------------------------------------------
 
@@ -44,43 +46,23 @@ int main()
 	window.setFramerateLimit(60);
 
 
-	int a=0,b=0;//orientatio perso et animatio sprite
+	int a=0,b=0;//orientation perso et animatio sprite
 	int compteurAnimation=0;
 	int vitessePerso=5;
 
 
-	Texture texture[4][2];
-	Image image;
 	Sprite perso1;
 
-
-	if (!image.loadFromFile("ressources/ennemi.png")) // Si le chargement du fichier a échoué
-	{
-		cout<<"Erreur durant le chargement de l'image"<<endl;
-		return EXIT_FAILURE; // On ferme le programme
-	}
-	else // Si le chargement de l'image a réussi
-	{	
-		Color bleu_transparence = Color(0,0,255);
-		image.createMaskFromColor(bleu_transparence,0);
-
-		int i,j;
-		for(i=0;i<4;i++)
-		{	
-			for(j=0;j<2;j++)
-			{
-				texture[i][j].loadFromImage(image,IntRect(i*TUILE_W, j*TUILE_H, TUILE_W , TUILE_H));
-				texture[i][j].setSmooth(false);	
-			}
-		}
-	}
+	Texture **texture=loadTexture("ressources/ennemi2.png",4,2);
+	perso1.setTexture(texture[0][0]);
+	perso1.setScale(AGRANDISSEMENT,AGRANDISSEMENT);
 
 
-	Texture texture_background[9];
-	Image image_background;
+
+	Texture **texture_background =loadTexture("ressources/background_base1.png",9,1);
 	int **tab_background=mappageBackground();
 
-	if (!image_background.loadFromFile("ressources/background_base1.png")) // Si le chargement du fichier a échoué
+	/*if (!image_background.loadFromFile("ressources/background_base1.png")) // Si le chargement du fichier a échoué
 	{
 		cout<<"Erreur durant le chargement de l'image"<<endl;
 		return EXIT_FAILURE; // On ferme le programme
@@ -93,13 +75,11 @@ int main()
 			texture_background[k].loadFromImage(image_background,IntRect(k*TUILE_W, 0, TUILE_W , TUILE_H));
 			texture_background[k].setSmooth(false);	
 		}
-	}
+	}*/
 
 	Sprite **background = createSpritesBackground(tab_background,texture_background);
 
-	perso1.setTexture(texture[0][0]);
-	perso1.setScale(AGRANDISSEMENT,AGRANDISSEMENT);
-	
+
 	int x,y;
 
 	while (window.isOpen())
@@ -223,7 +203,7 @@ int** mappageBackground()
 }
 
 
-Sprite** createSpritesBackground(int **tab, Texture *texture)
+Sprite** createSpritesBackground(int **tab, Texture **texture)
 {
 	//background;
 
@@ -239,11 +219,11 @@ Sprite** createSpritesBackground(int **tab, Texture *texture)
 		{
 			if(tab[c][d]==9)
 			{
-				background[c][d].setTexture(texture[0]);
+				background[c][d].setTexture(texture[0][0]);
 			}
 			else
 			{
-				background[c][d].setTexture(texture[tab[c][d]+1]);
+				background[c][d].setTexture(texture[tab[c][d]+1][0]);
 			}
 			background[c][d].setPosition (AGRANDISSEMENT*d*TUILE_W,AGRANDISSEMENT*c*TUILE_H);
 			background[c][d].setScale(AGRANDISSEMENT,AGRANDISSEMENT);
@@ -271,7 +251,8 @@ int **createTable(int nbLin, int nbCol)
 {
 	int **tableau = (int **)malloc(sizeof(int*)*nbLin);
 	int *tableau2 = (int *)malloc(sizeof(int)*nbCol*nbLin);
-	for(int i = 0 ; i < nbLin ; i++){
+	for(int i = 0 ; i < nbLin ; i++)
+	{
 		tableau[i] = &tableau2[i*nbCol];
 	}
 	return tableau;
@@ -281,6 +262,38 @@ void freeTable(int **tableau)
 {
 	free(tableau[0]);
 	free(tableau);
+}
+
+
+Texture** loadTexture(string name_image, int nb_col, int nb_lin)
+{
+
+	Texture** texture = new Texture*[nb_col];
+	for (int o = 0; o < nb_col; o++)
+		texture[o] = new Texture[nb_lin];
+
+	Image image;
+
+	if (!image.loadFromFile(name_image)) // Si le chargement du fichier a échoué
+	{
+		cout<<"Erreur durant le chargement de l'image: "<< name_image <<endl;
+	}
+	else // Si le chargement de l'image a réussi
+	{	
+		Color bleu_transparence = Color(0,0,255);
+		image.createMaskFromColor(bleu_transparence,0);
+
+		int i,j;
+		for(i=0;i<nb_col;i++)
+		{	
+			for(j=0;j<nb_lin;j++)
+			{
+				texture[i][j].loadFromImage(image,IntRect(i*(image.getSize().x/nb_col), j*(image.getSize().y/nb_lin), (image.getSize().x/nb_col) , (image.getSize().y/nb_lin)));
+				texture[i][j].setSmooth(false);	
+			}
+		}
+	}
+	return texture;
 }
 
 //-----fin développement des fonctions--------------------------------------------------------------------------------------------------------
