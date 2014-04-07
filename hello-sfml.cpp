@@ -11,7 +11,7 @@ using namespace sf;
 using namespace std; 
 
 // Constantes
-#define AGRANDISSEMENT 2
+#define AGRANDISSEMENT 3
 #define DIV_FREQ_ANIMATION 4
 
 #define TUILE_W 16
@@ -237,41 +237,13 @@ Sprite** createSpritesBackground(int **tab, Texture *texture)
 	{	
 		for(d=0;d<NB_WINDOW_TUILES_X;d++)
 		{
-			if(tab[c][d]==0)
+			if(tab[c][d]==9)
 			{
-				background[c][d].setTexture(texture[1]);
-			}
-			else if(tab[c][d]==1)
-			{
-				background[c][d].setTexture(texture[2]);
-			}
-			else if(tab[c][d]==2)
-			{
-				background[c][d].setTexture(texture[3]);
-			}
-			else if(tab[c][d]==3)
-			{
-				background[c][d].setTexture(texture[4]);
-			}
-			else if(tab[c][d]==4)
-			{
-				background[c][d].setTexture(texture[5]);
-			}
-			else if(tab[c][d]==5)
-			{
-				background[c][d].setTexture(texture[6]);
-			}
-			else if(tab[c][d]==6)
-			{
-				background[c][d].setTexture(texture[7]);
-			}
-			else if(tab[c][d]==7)
-			{
-				background[c][d].setTexture(texture[8]);
+				background[c][d].setTexture(texture[0]);
 			}
 			else
 			{
-				background[c][d].setTexture(texture[0]);
+				background[c][d].setTexture(texture[tab[c][d]+1]);
 			}
 			background[c][d].setPosition (AGRANDISSEMENT*d*TUILE_W,AGRANDISSEMENT*c*TUILE_H);
 			background[c][d].setScale(AGRANDISSEMENT,AGRANDISSEMENT);
@@ -293,7 +265,6 @@ void drawBackground(RenderWindow *window, Sprite **sprite)
 			window->draw(sprite[i][j]);			
 		}
 	}
-
 }
 
 int **createTable(int nbLin, int nbCol)
@@ -311,6 +282,5 @@ void freeTable(int **tableau)
 	free(tableau[0]);
 	free(tableau);
 }
-
 
 //-----fin développement des fonctions--------------------------------------------------------------------------------------------------------
