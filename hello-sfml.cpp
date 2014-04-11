@@ -12,7 +12,7 @@ using namespace std;
 
 // Constantes
 #define AGRANDISSEMENT 3
-#define DIV_FREQ_ANIMATION 4
+#define DIV_FREQ_ANIMATION 1
 
 #define TUILE_W 16
 #define TUILE_H 24
@@ -32,9 +32,6 @@ void drawBackground(RenderWindow *window, Sprite **sprite);
 int **createTable(int nbLin, int nbCol); 
 void freeTable(int **tableau);
 
-Sprite **createSpriteTable(int nbLin, int nbCol); 
-void freeSpriteTable(Sprite **tableau);
-
 Texture** loadTexture(string name_image, int nb_col, int nb_lin);
 
 //-----fin définitions des prototypes des fonctions--------------------------------------------------------------------------------------------------------
@@ -44,6 +41,7 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X, TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y), "SFML works!");
 	window.setFramerateLimit(60);
+	window.setKeyRepeatEnabled (true); 	
 
 
 	int a=0,b=0;//orientation perso et animatio sprite
@@ -61,22 +59,6 @@ int main()
 
 	Texture **texture_background =loadTexture("ressources/background_base1.png",9,1);
 	int **tab_background=mappageBackground();
-
-	/*if (!image_background.loadFromFile("ressources/background_base1.png")) // Si le chargement du fichier a échoué
-	{
-		cout<<"Erreur durant le chargement de l'image"<<endl;
-		return EXIT_FAILURE; // On ferme le programme
-	}
-	else // Si le chargement de l'image a réussi
-	{	
-		int k;
-		for(k=0;k<9;k++)
-		{
-			texture_background[k].loadFromImage(image_background,IntRect(k*TUILE_W, 0, TUILE_W , TUILE_H));
-			texture_background[k].setSmooth(false);	
-		}
-	}*/
-
 	Sprite **background = createSpritesBackground(tab_background,texture_background);
 
 
@@ -84,6 +66,8 @@ int main()
 
 	while (window.isOpen())
 	{
+		sf::Keyboard::Key direction;
+
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -95,42 +79,47 @@ int main()
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 					window.close();
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-				{
-    			// la touche "flèche gauche" est enfoncée : on bouge le personnage
-					perso1.move(-vitessePerso, 0);
-					a=2;
-				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-				{
-    			// la touche "flèche droite" est enfoncée : on bouge le personnage
-					perso1.move(vitessePerso, 0);
-					a=3;
-				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-				{
-    			// la touche "flèche haut" est enfoncée : on bouge le personnage
-					perso1.move(0, -vitessePerso);
-					a=0;
-				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-				{
-    			// la touche "flèche bas" est enfoncée : on bouge le personnage
-					perso1.move(0, vitessePerso);
-					a=1;
-				}
+					//perso1.move((-1*sf::Keyboard::isKeyPressed(sf::Keyboard::Left)+1*sf::Keyboard::isKeyPressed(sf::Keyboard::Right))*vitessePerso, 0);
+					//perso1.move(0,(-1*sf::Keyboard::isKeyPressed(sf::Keyboard::Up)+1*sf::Keyboard::isKeyPressed(sf::Keyboard::Down))*vitessePerso);
 
-				compteurAnimation++;
-				if(compteurAnimation == DIV_FREQ_ANIMATION) 
+				if (event.key.code == sf::Keyboard::Left
+					|| event.key.code == sf::Keyboard::Right
+					|| event.key.code == sf::Keyboard::Up
+					|| event.key.code == sf::Keyboard::Down
+					)
 				{
+					direction = event.key.code;
+				}
+				//compteurAnimation++;
+				//if(compteurAnimation == DIV_FREQ_ANIMATION) 
+				//{
 					b=!b;
-					compteurAnimation=0;
+				//	compteurAnimation=0;
+				//}
+			}
+			else if(event.type == sf::Event::KeyReleased){
+				if (event.key.code == sf::Keyboard::Left
+					|| event.key.code == sf::Keyboard::Right
+					|| event.key.code == sf::Keyboard::Up
+					|| event.key.code == sf::Keyboard::Down
+					)
+				{
+					if(direction == event.key.code)
+						direction = sf::Keyboard::Unknown;
 				}
-
-				perso1.setTexture(texture[a][b]);
-
 			}
 		}
+
+		switch(direction){
+			case sf::Keyboard::Left: perso1.move(-vitessePerso,0); break;
+			case sf::Keyboard::Right: perso1.move(vitessePerso,0); break;
+			case sf::Keyboard::Up: perso1.move(0,-vitessePerso); break;
+			case sf::Keyboard::Down: perso1.move(0,vitessePerso); break;
+		}
+
+		perso1.setTexture(texture[a][b]);
+
+
 
 		window.clear();
 
