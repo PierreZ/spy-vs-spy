@@ -10,17 +10,15 @@
 using namespace sf;
 using namespace std; 
 
-// Constantes
+// Constante
 #define AGRANDISSEMENT 3
-#define DIV_FREQ_ANIMATION 1
+#define DIV_FREQ_ANIMATION 6
 
 #define TUILE_W 16
 #define TUILE_H 24
 
 #define NB_WINDOW_TUILES_X 16
 #define NB_WINDOW_TUILES_Y 8
-
-
 
 
 //-----définitions des prototypes des fonctions--------------------------------------------------------------------------------------------------------
@@ -34,6 +32,8 @@ void freeTable(int **tableau);
 
 Texture** loadTexture(string name_image, int nb_col, int nb_lin);
 
+void toggleAnimation(int *varAnim, int *compteur, int valCompteurMax);
+
 //-----fin définitions des prototypes des fonctions--------------------------------------------------------------------------------------------------------
 
 int main()
@@ -44,15 +44,19 @@ int main()
 	window.setKeyRepeatEnabled (true); 	
 
 
-	int a=0,b=0;//orientation perso et animatio sprite
+	int varAnim=0;//orientation perso et animatio sprite
 	int compteurAnimation=0;
 	int vitessePerso=5;
 
 
+	enum {SPRITE_UP=0, SPRITE_DOWN=1, SPRITE_LEFT=2, SPRITE_RIGHT=3} SPRITE_DIRECTION;
+	int perso_direction = SPRITE_DOWN;
+	cout<< perso_direction<<endl;
+
 	Sprite perso1;
 
 	Texture **texture=loadTexture("ressources/ennemi2.png",4,2);
-	perso1.setTexture(texture[0][0]);
+	perso1.setTexture(texture[perso_direction][0]);
 	perso1.setScale(AGRANDISSEMENT,AGRANDISSEMENT);
 
 
@@ -79,9 +83,6 @@ int main()
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 					window.close();
 
-					//perso1.move((-1*sf::Keyboard::isKeyPressed(sf::Keyboard::Left)+1*sf::Keyboard::isKeyPressed(sf::Keyboard::Right))*vitessePerso, 0);
-					//perso1.move(0,(-1*sf::Keyboard::isKeyPressed(sf::Keyboard::Up)+1*sf::Keyboard::isKeyPressed(sf::Keyboard::Down))*vitessePerso);
-
 				if (event.key.code == sf::Keyboard::Left
 					|| event.key.code == sf::Keyboard::Right
 					|| event.key.code == sf::Keyboard::Up
@@ -90,12 +91,7 @@ int main()
 				{
 					direction = event.key.code;
 				}
-				//compteurAnimation++;
-				//if(compteurAnimation == DIV_FREQ_ANIMATION) 
-				//{
-					b=!b;
-				//	compteurAnimation=0;
-				//}
+
 			}
 			else if(event.type == sf::Event::KeyReleased){
 				if (event.key.code == sf::Keyboard::Left
@@ -110,15 +106,37 @@ int main()
 			}
 		}
 
-		switch(direction){
-			case sf::Keyboard::Left: perso1.move(-vitessePerso,0); break;
-			case sf::Keyboard::Right: perso1.move(vitessePerso,0); break;
-			case sf::Keyboard::Up: perso1.move(0,-vitessePerso); break;
-			case sf::Keyboard::Down: perso1.move(0,vitessePerso); break;
+		switch(direction)
+		{
+			case sf::Keyboard::Left:
+			perso1.move(-vitessePerso,0); 
+			perso_direction=SPRITE_LEFT;
+			toggleAnimation(&varAnim, &compteurAnimation , DIV_FREQ_ANIMATION);
+			break;
+
+			case sf::Keyboard::Right:
+			perso1.move(vitessePerso,0);
+			perso_direction=SPRITE_RIGHT;
+			toggleAnimation(&varAnim, &compteurAnimation , DIV_FREQ_ANIMATION);
+			break;
+
+			case sf::Keyboard::Up:
+			perso_direction=SPRITE_UP;
+			perso1.move(0,-vitessePerso);
+			toggleAnimation(&varAnim, &compteurAnimation , DIV_FREQ_ANIMATION);
+			break;
+
+			case sf::Keyboard::Down:
+			perso_direction=SPRITE_DOWN;
+			perso1.move(0,vitessePerso);
+			toggleAnimation(&varAnim, &compteurAnimation , DIV_FREQ_ANIMATION);
+			break;
 		}
 
-		perso1.setTexture(texture[a][b]);
 
+
+
+		perso1.setTexture(texture[perso_direction][varAnim]);
 
 
 		window.clear();
@@ -285,4 +303,17 @@ Texture** loadTexture(string name_image, int nb_col, int nb_lin)
 	return texture;
 }
 
+
+void toggleAnimation(int *varAnim, int *compteur , int valCompteurMax)
+{
+
+	(*compteur)++;
+	//cout<<*compteur<<"  "<<*varAnim<<endl:
+
+	if(*compteur==valCompteurMax)
+	{
+		*varAnim = !(*varAnim);
+		*compteur=0;
+	}
+}
 //-----fin développement des fonctions--------------------------------------------------------------------------------------------------------
