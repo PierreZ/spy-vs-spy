@@ -2,3 +2,4 @@ lib/
 Makefile
 hello-sfml.o
 hello-sfml
+personnage.o
