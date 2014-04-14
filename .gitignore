@@ -3,3 +3,4 @@ Makefile
 hello-sfml.o
 hello-sfml
 personnage.o
+background.o
