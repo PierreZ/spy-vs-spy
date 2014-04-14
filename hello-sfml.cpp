@@ -10,15 +10,7 @@
 using namespace sf;
 using namespace std; 
 
-// Constante
-#define AGRANDISSEMENT 3
-#define DIV_FREQ_ANIMATION 6
-
-#define TUILE_W 16
-#define TUILE_H 24
-
-#define NB_WINDOW_TUILES_X 16
-#define NB_WINDOW_TUILES_Y 8
+#include "personnage.hpp"
 
 
 //-----définitions des prototypes des fonctions--------------------------------------------------------------------------------------------------------
@@ -30,9 +22,9 @@ void drawBackground(RenderWindow *window, Sprite **sprite);
 int **createTable(int nbLin, int nbCol); 
 void freeTable(int **tableau);
 
-Texture** loadTexture(string name_image, int nb_col, int nb_lin);
+Texture** loadTexture2(string name_image, int nb_col, int nb_lin);
 
-void toggleAnimation(int *varAnim, int *compteur, int valCompteurMax);
+//void toggleAnimation(int *varAnim, int *compteur, int valCompteurMax);
 
 //-----fin définitions des prototypes des fonctions--------------------------------------------------------------------------------------------------------
 
@@ -48,20 +40,17 @@ int main()
 	int compteurAnimation=0;
 	int vitessePerso=5;
 
+	//Sprite perso1;
 
-	enum {SPRITE_UP=0, SPRITE_DOWN=1, SPRITE_LEFT=2, SPRITE_RIGHT=3} SPRITE_DIRECTION;
-	int perso_direction = SPRITE_DOWN;
-	cout<< perso_direction<<endl;
+	//Texture **texture=loadTexture("ressources/player1.png",4,2);
+	//perso1.setTexture(texture[perso_direction][0]);
+	//perso1.setScale(AGRANDISSEMENT,AGRANDISSEMENT);
 
-	Sprite perso1;
+	//----avec classe parsonnage
+	Personnage player1;
+	player1.setTextureFromImage("ressources/player1.png");
 
-	Texture **texture=loadTexture("ressources/ennemi2.png",4,2);
-	perso1.setTexture(texture[perso_direction][0]);
-	perso1.setScale(AGRANDISSEMENT,AGRANDISSEMENT);
-
-
-
-	Texture **texture_background =loadTexture("ressources/background_base1.png",9,1);
+	Texture **texture_background =loadTexture2("ressources/background_base1.png",9,1);
 	int **tab_background=mappageBackground();
 	Sprite **background = createSpritesBackground(tab_background,texture_background);
 
@@ -109,41 +98,41 @@ int main()
 		switch(direction)
 		{
 			case sf::Keyboard::Left:
-			perso1.move(-vitessePerso,0); 
-			perso_direction=SPRITE_LEFT;
-			toggleAnimation(&varAnim, &compteurAnimation , DIV_FREQ_ANIMATION);
+			player1.bougerPerso(-vitessePerso,0); 
+			player1.setDirection(SPRITE_LEFT);
+			player1.toggleAnimation(DIV_FREQ_ANIMATION);
 			break;
 
 			case sf::Keyboard::Right:
-			perso1.move(vitessePerso,0);
-			perso_direction=SPRITE_RIGHT;
-			toggleAnimation(&varAnim, &compteurAnimation , DIV_FREQ_ANIMATION);
+			player1.bougerPerso(vitessePerso,0);
+			player1.setDirection(SPRITE_RIGHT);
+			player1.toggleAnimation(DIV_FREQ_ANIMATION);
 			break;
 
-			case sf::Keyboard::Up:
-			perso_direction=SPRITE_UP;
-			perso1.move(0,-vitessePerso);
-			toggleAnimation(&varAnim, &compteurAnimation , DIV_FREQ_ANIMATION);
+			case sf::Keyboard::Up:			
+			player1.bougerPerso(0,-vitessePerso);
+			player1.setDirection(SPRITE_UP);
+			player1.toggleAnimation(DIV_FREQ_ANIMATION);
 			break;
 
 			case sf::Keyboard::Down:
-			perso_direction=SPRITE_DOWN;
-			perso1.move(0,vitessePerso);
-			toggleAnimation(&varAnim, &compteurAnimation , DIV_FREQ_ANIMATION);
+			player1.bougerPerso(0,vitessePerso);
+			player1.setDirection(SPRITE_DOWN);
+			player1.toggleAnimation(DIV_FREQ_ANIMATION);
 			break;
 		}
 
+		player1.setTexturePerso();
 
 
-
-		perso1.setTexture(texture[perso_direction][varAnim]);
+		
 
 
 		window.clear();
 
 		drawBackground(&window, background);
 
-		window.draw(perso1);
+		window.draw(player1.getSprite());
 
 		window.display();
 	}
@@ -272,7 +261,7 @@ void freeTable(int **tableau)
 }
 
 
-Texture** loadTexture(string name_image, int nb_col, int nb_lin)
+Texture** loadTexture2(string name_image, int nb_col, int nb_lin)
 {
 
 	Texture** texture = new Texture*[nb_col];
@@ -303,17 +292,4 @@ Texture** loadTexture(string name_image, int nb_col, int nb_lin)
 	return texture;
 }
 
-
-void toggleAnimation(int *varAnim, int *compteur , int valCompteurMax)
-{
-
-	(*compteur)++;
-	//cout<<*compteur<<"  "<<*varAnim<<endl:
-
-	if(*compteur==valCompteurMax)
-	{
-		*varAnim = !(*varAnim);
-		*compteur=0;
-	}
-}
 //-----fin développement des fonctions--------------------------------------------------------------------------------------------------------
