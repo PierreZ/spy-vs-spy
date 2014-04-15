@@ -38,6 +38,7 @@ class Background
     public:
 
         Background();
+        ~Background();
 
         int** mappageBackground();
 
@@ -57,6 +58,7 @@ class Background
         Texture **texture_background;
         int** tabBackground;
         Sprite **spriteBackground;
+        IntRect** hitboxBackground;
 };
 
 #endif //BACKGROUND_H

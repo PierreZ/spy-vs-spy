@@ -1,6 +1,6 @@
 lib/
 Makefile
-hello-sfml.o
-hello-sfml
+event_loop.o
+spy-vs-spy
 personnage.o
 background.o

@@ -45,6 +45,7 @@
 		//avec classe parsonnage
     	Personnage player1;
     	player1.setTextureFromImage("ressources/player1.png");
+    	
 
     	Background salle1;
 
@@ -91,25 +92,25 @@
     		switch(direction)
     		{
     			case sf::Keyboard::Left:
-    			player1.bougerPerso(-vitessePerso,0); 
+    			player1.move(-vitessePerso,0); 
     			player1.setDirection(SPRITE_LEFT);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Right:
-    			player1.bougerPerso(vitessePerso,0);
+    			player1.move(vitessePerso,0);
     			player1.setDirection(SPRITE_RIGHT);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Up:			
-    			player1.bougerPerso(0,-vitessePerso);
+    			player1.move(0,-vitessePerso);
     			player1.setDirection(SPRITE_UP);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Down:
-    			player1.bougerPerso(0,vitessePerso);
+    			player1.move(0,vitessePerso);
     			player1.setDirection(SPRITE_DOWN);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
@@ -121,11 +122,13 @@
 
     		salle1.drawBackground(&window);
 
-    		window.draw(player1.getSprite());
+    		window.draw(player1);
 
     		window.display();
     	}
 
+    	//delete &salle1; probleme avec le destructeur --> demnder à Pierre
+    	//delete &player1;
     	return 0;
     }
 

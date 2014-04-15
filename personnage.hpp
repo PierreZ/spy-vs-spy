@@ -32,11 +32,12 @@ using namespace std;
 using namespace sf;
 
 
-class Personnage
+class Personnage: public Sprite
 {
     public:
 
         Personnage();
+        ~Personnage();
 
         void setTextureFromImage(string nomAtlas);
 
@@ -44,26 +45,23 @@ class Personnage
 
         void toggleAnimation(int valCompteurMax);
 
-        void bougerPerso(float x, float y);
-
         void setTexturePerso();
 
         void setDirection(int sprite_direction);
-        
-        Sprite getSprite();
+
 
     protected:
+
+        IntRect createHitboxPerso();
 
     private:
 
         Texture** texturePerso;
-        Sprite spritePerso;
         int varAnimation;
         int compteurAnimation;
         int directionPerso;
+        IntRect hitboxPerso;
 };
-
-
 
 
 #endif // PERSONNAGE_H

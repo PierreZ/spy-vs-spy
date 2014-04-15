@@ -19,30 +19,37 @@
 #include "personnage.hpp"
 
 
-Personnage::Personnage()
-{
-	directionPerso = SPRITE_DOWN;
-	compteurAnimation=0;
-	varAnimation=0;
-}
+    Personnage::Personnage()
+    {
+    	directionPerso = SPRITE_DOWN;
+    	compteurAnimation=0;
+    	varAnimation=0;
 
-void Personnage::setTextureFromImage(string nomAtlas)
-{
-	texturePerso = loadTexture(nomAtlas, 4, 2);
-	varAnimation=0;
-	spritePerso.setTexture(texturePerso[0][varAnimation]);
-	spritePerso.setScale(AGRANDISSEMENT,AGRANDISSEMENT);
-}
+    }
+
+    Personnage::~Personnage()
+    {
 
 
-Texture** Personnage::loadTexture(string name_image, int nb_col, int nb_lin)
-{
+    }
 
-	Texture** texture = new Texture*[nb_col];
-	for (int o = 0; o < nb_col; o++)
-		texture[o] = new Texture[nb_lin];
+    void Personnage::setTextureFromImage(string nomAtlas)
+    {
+    	texturePerso = loadTexture(nomAtlas, 4, 2);
+    	varAnimation=0;
+    	setTexture(texturePerso[0][varAnimation]);
+    	setScale(AGRANDISSEMENT,AGRANDISSEMENT);
+    }
 
-	Image image;
+
+    Texture** Personnage::loadTexture(string name_image, int nb_col, int nb_lin)
+    {
+
+    	Texture** texture = new Texture*[nb_col];
+    	for (int o = 0; o < nb_col; o++)
+    		texture[o] = new Texture[nb_lin];
+
+    	Image image;
 
 	if (!image.loadFromFile(name_image)) // Si le chargement du fichier a échoué
 	{
@@ -80,24 +87,33 @@ void Personnage::toggleAnimation(int valCompteurMax)
 	}
 }
 
-void Personnage::bougerPerso(float x, float y)
+
+void Personnage::setTexturePerso()
 {
-	spritePerso.move(x,y);
+	setTexture(texturePerso[directionPerso][varAnimation]);
+	hitboxPerso=createHitboxPerso();
 
 }
 
-void Personnage::setTexturePerso()
- {
- 	spritePerso.setTexture(texturePerso[directionPerso][varAnimation]);
- }
-
- void Personnage::setDirection(int sprite_direction)
- {
- 	directionPerso=sprite_direction;
- }
-
-
-Sprite Personnage::getSprite()
+void Personnage::setDirection(int sprite_direction)
 {
-	return spritePerso;
+	directionPerso=sprite_direction;
+}
+
+
+
+IntRect Personnage::createHitboxPerso()
+{
+	// Define another rectangle, located at (4, 2) with a size of 18x10
+	int px=getPosition().x;
+	int py=getPosition().y;
+	int sx=texturePerso[directionPerso][varAnimation].getSize().x;
+	int sy=texturePerso[directionPerso][varAnimation].getSize().y;
+	Vector2i position(px, py+sy-sy/3);
+	Vector2i size(sx, sy/3);
+	IntRect hitboxPerso(position, size);
+		cout<<"p.x= "<<px<<endl;
+	cout<<"p.y= "<<py+sy-sy/3<<endl;//
+	cout<<"s.x= "<<sx<<endl;
+	cout<<"s.y= "<<sy/3<<endl;
 }

@@ -25,11 +25,17 @@
         spriteBackground = createSpritesBackground();
     }
 
+    Background::~Background()
+    {
+        freeTable(tabBackground);
+
+    }
+
     int** Background::mappageBackground()
     {
         int **tab=createTable(NB_WINDOW_TUILES_Y, NB_WINDOW_TUILES_X);
 
-        cout<<endl;
+        //cout<<endl;
         int i, j;
         for(i=0;i<NB_WINDOW_TUILES_Y;i++)
         {   
@@ -71,12 +77,11 @@
             {
                 tab[i][j]=9;
             }
-            cout<<tab[i][j];
+          // cout<<tab[i][j];
         }
-        cout<<endl;
-
+        //cout<<endl;
     }
-    cout<<endl;
+    //cout<<endl;
     return tab;
 }
 
@@ -145,7 +150,6 @@ void Background::freeTable(int **tableau)
 
 Texture** Background::loadTexture2(string name_image, int nb_col, int nb_lin)
 {
-
     Texture** texture = new Texture*[nb_col];
     for (int o = 0; o < nb_col; o++)
         texture[o] = new Texture[nb_lin];
