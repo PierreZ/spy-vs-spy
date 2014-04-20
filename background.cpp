@@ -497,21 +497,50 @@ IntRect** Background::createHitboxBackground()
             switch(tabBackground[c][d])
             {
 
-                case 9:
+                //hibox vide
+                case 9: case 24: case 23: case 21: case 22: case 1001: case 1000: 
                 hitbox[c][d].width=0;
                 hitbox[c][d].height=0;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
                 break;
 
-                //case
+                //moitié gauche en longuer
+                case 26: case 25: case 1002: case 44: case 66:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/2;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
+                break;
 
+
+                //moitié droite en longuer
+                case 27: case 28: case 1003: case 55:  case 77:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/2;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W+AGRANDISSEMENT*TUILE_W/2;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
+                break;
+
+                //moitié gauche en largeur
+              /*  case 27: case 28: case 1003: case 55:  case 77:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/2;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W+AGRANDISSEMENT*TUILE_W/2;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
+                break;*/
+
+
+                //hibox pleine
                 default:
                 hitbox[c][d].width=AGRANDISSEMENT*TUILE_W;
                 hitbox[c][d].height=AGRANDISSEMENT*TUILE_H;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
                 break;
                 
             }
-            hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
-            hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
+
             //cout<<"  p.x= "<<hitbox[c][d].left;
             //cout<<"  p.y= "<<hitbox[c][d].top;
             //cout<<"  s.x= "<<hitbox[c][d].width;
