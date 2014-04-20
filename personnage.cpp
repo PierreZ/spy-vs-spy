@@ -33,12 +33,19 @@
 
     }
 
+
     void Personnage::setTextureFromImage(string nomAtlas)
     {
     	texturePerso = loadTexture(nomAtlas, 4, 2);
     	varAnimation=0;
     	setTexture(texturePerso[0][varAnimation]);
     	setScale(AGRANDISSEMENT,AGRANDISSEMENT);
+    	setPosition(50,50);
+    	hitboxPerso=createHitboxPerso();
+		//cout<<"---------------->p.x= "<<hitboxPerso.left;
+		//cout<<"  p.y= "<<hitboxPerso.top;
+		//cout<<"  s.x= "<<hitboxPerso.width;
+		//cout<<"  s.y= "<<hitboxPerso.height<<endl;
     }
 
 
@@ -70,6 +77,7 @@
 			}
 		}
 	}
+
 	return texture;
 }
 
@@ -91,8 +99,7 @@ void Personnage::toggleAnimation(int valCompteurMax)
 void Personnage::setTexturePerso()
 {
 	setTexture(texturePerso[directionPerso][varAnimation]);
-	hitboxPerso=createHitboxPerso();
-
+	//hitboxPerso=createHitboxPerso();
 }
 
 void Personnage::setDirection(int sprite_direction)
@@ -107,13 +114,86 @@ IntRect Personnage::createHitboxPerso()
 	// Define another rectangle, located at (4, 2) with a size of 18x10
 	int px=getPosition().x;
 	int py=getPosition().y;
-	int sx=texturePerso[directionPerso][varAnimation].getSize().x;
-	int sy=texturePerso[directionPerso][varAnimation].getSize().y;
-	Vector2i position(px*AGRANDISSEMENT, (py+sy-sy/3)*AGRANDISSEMENT);
-	Vector2i size(sx*AGRANDISSEMENT, (sy/3)*AGRANDISSEMENT);
-	IntRect hitboxPerso(position, size);
-	cout<<"p.x= "<<hitboxPerso.left<<endl;
-	cout<<"p.y= "<<hitboxPerso.top<<endl;//
-	cout<<"s.x= "<<sx<<endl;
-	cout<<"s.y= "<<sy/3<<endl;
+	int sx=AGRANDISSEMENT*texturePerso[directionPerso][varAnimation].getSize().x;
+	int sy=AGRANDISSEMENT*texturePerso[directionPerso][varAnimation].getSize().y;
+	//cout<<"  px= "<<px<<";  py= "<<py<<";  sx= "<< sx<< ";  sy= "<<sy<<endl;
+	Vector2i position(px, (py+sy-sy/3));
+	Vector2i size(sx, (sy/3));
+	IntRect *hitboxPerso=new IntRect(position, size);
+	//cout<<"  p.x= "<<hitboxPerso->left;
+	//cout<<"  p.y= "<<hitboxPerso->top;
+	//cout<<"  s.x= "<<hitboxPerso->width;
+	//cout<<"  s.y= "<<hitboxPerso->height<<endl;
+	return *hitboxPerso;
+}
+
+void Personnage::bougerHitboxPerso(int x, int y)
+{
+	hitboxPerso.top+=y;
+	hitboxPerso.left+=x;
+}
+
+void Personnage::movePerso(float x, float y, Background *salle)
+{
+	IntRect rectSprite;
+	rectSprite.top=getGlobalBounds().top+y;
+	rectSprite.left=getGlobalBounds().left+x;
+	rectSprite.width=getGlobalBounds().width;
+	rectSprite.height=getGlobalBounds().height;
+
+	//cout<<"---------nouvelle verif------------------- "<<endl;
+	//cout<<"rectSprite.x= "<<rectSprite.left<<"  rectSprite.y= "<<rectSprite.top<<"  rectSprite.x= "<<rectSprite.width<<"  rectSprite.y= "<<rectSprite.height<<endl;
+	IntRect hitboxPersoTemp;
+	hitboxPersoTemp.top=hitboxPerso.top+y;
+	hitboxPersoTemp.left=hitboxPerso.left+x;
+	hitboxPersoTemp.width=hitboxPerso.width;
+	hitboxPersoTemp.height=hitboxPerso.height;
+
+	int c, d;	
+	int possibilite=0;
+	IntRect rectSpriteBackground;
+	IntRect rectHitboxSpriteBackground;
+	for(c=0;c<NB_WINDOW_TUILES_Y;c++)
+	{   
+		for(d=0;d<NB_WINDOW_TUILES_X;d++)
+		{
+			rectSpriteBackground=(IntRect)salle->getSpriteBackground()[c][d].getGlobalBounds();
+			//cout<<"rectSpriteBackground.x= "<<rectSpriteBackground.left<<"  rectSpriteBackground.y= "<<rectSpriteBackground.top<<"  rectSpriteBackground.x= "<<rectSpriteBackground.width<<"  rectSpriteBackground.y= "<<rectSpriteBackground.height<<endl;
+
+			if(rectSprite.intersects(rectSpriteBackground))
+			{
+				rectHitboxSpriteBackground=salle->getHitboxBackground()[c][d];
+				if((hitboxPersoTemp.intersects(rectHitboxSpriteBackground)))
+				{
+					possibilite=0;
+					//cout<<"dalle= "<<c<<"-"<<d<<endl;
+					//cout<<"rectHitboxSpriteBackground.x= "<<rectHitboxSpriteBackground.left<<"  rectHitboxSpriteBackground.y= "<<rectHitboxSpriteBackground.top<<"  rectHitboxSpriteBackground.x= "<<rectHitboxSpriteBackground.width<<"  rectHitboxSpriteBackground.y= "<<rectHitboxSpriteBackground.height<<endl;
+				}
+				else
+				{
+					possibilite=1;
+				}
+			}
+		}
+	}
+	if(possibilite!=0)
+	{		
+		move(x,y);
+		bougerHitboxPerso((int)x,(int)y);
+		//cout<<"p.x= "<<hitboxPerso.left<<"  p.y= "<<hitboxPerso.top<<"  s.x= "<<hitboxPerso.width<<"  s.y= "<<hitboxPerso.height<<endl;
+	}
+}
+
+void Personnage::dessinerHitbox(IntRect hitbox,RenderWindow *window)
+{
+
+    RectangleShape rectangle(Vector2f(hitbox.width,hitbox.height));
+    rectangle.setPosition(Vector2f(hitbox.left,hitbox.top));
+    rectangle.setFillColor(Color::Green);
+    window->draw(rectangle); 
+}
+
+IntRect Personnage::getHitboxPerso()
+{
+	return hitboxPerso;
 }

@@ -23,6 +23,8 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 
+#include "background.hpp"
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -49,10 +51,15 @@ class Personnage: public Sprite
 
         void setDirection(int sprite_direction);
 
-
-    protected:
+        void bougerHitboxPerso(int x, int y);
 
         IntRect createHitboxPerso();
+
+        void movePerso(float x, float y, Background *salle);
+
+        void dessinerHitbox(IntRect hitbox,RenderWindow *window);
+
+        IntRect getHitboxPerso();
 
     private:
 

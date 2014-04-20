@@ -51,6 +51,14 @@ class Background
 
         Texture** loadTexture2(string name_image, int nb_col, int nb_lin);
 
+        IntRect** createHitboxBackground();
+
+        IntRect** getHitboxBackground();
+
+        Sprite** getSpriteBackground();
+        
+        void dessinerHitbox(IntRect hitbox,RenderWindow *window);
+
     protected:
 
     private:

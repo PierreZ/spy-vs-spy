@@ -36,6 +36,9 @@
     int main()
     {
 
+    	//int asa=-5;
+    	//cout<<"result="<<5+asa<<endl;
+
     	sf::RenderWindow window(sf::VideoMode(TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X, TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y), "SFML works!");
     	window.setFramerateLimit(60);
     	window.setKeyRepeatEnabled (true); 	
@@ -47,7 +50,6 @@
     	Personnage player1;
     	player1.setTextureFromImage("ressources/player1.png");
     	
-
     	Background salle1;
 
     	int x,y;
@@ -93,30 +95,30 @@
     		switch(direction)
     		{
     			case sf::Keyboard::Left:
-    			player1.move(-vitessePerso,0); 
+    			player1.movePerso(-vitessePerso,0,&salle1); 
     			player1.setDirection(SPRITE_LEFT);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Right:
-    			player1.move(vitessePerso,0);
+    			player1.movePerso(vitessePerso,0,&salle1);
     			player1.setDirection(SPRITE_RIGHT);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Up:			
-    			player1.move(0,-vitessePerso);
+    			player1.movePerso(0,-vitessePerso,&salle1);
     			player1.setDirection(SPRITE_UP);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Down:
-    			player1.move(0,vitessePerso);
+    			player1.movePerso(0,vitessePerso,&salle1);
     			player1.setDirection(SPRITE_DOWN);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
     		}
-
+    
     		player1.setTexturePerso();	
 
     		window.clear();
@@ -124,6 +126,7 @@
     		salle1.drawBackground(&window);
 
     		window.draw(player1);
+    		player1.dessinerHitbox(player1.getHitboxPerso(), &window);
 
     		window.display();
     	}

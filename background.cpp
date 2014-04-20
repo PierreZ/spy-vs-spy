@@ -24,6 +24,7 @@
         texture_background =loadTexture2("ressources/background_base1.png",9,1);
         tabBackground=mappageBackground();
         spriteBackground = createSpritesBackground();
+        hitboxBackground=createHitboxBackground();
     }
 
     Background::~Background()
@@ -126,7 +127,8 @@ void Background::drawBackground(RenderWindow *window)
     {   
         for(j=0;j<NB_WINDOW_TUILES_X;j++)
         {
-            window->draw(spriteBackground[i][j]);         
+            window->draw(spriteBackground[i][j]);   
+            dessinerHitbox(hitboxBackground[i][j],window);
         }
     }
 }
@@ -177,4 +179,57 @@ Texture** Background::loadTexture2(string name_image, int nb_col, int nb_lin)
         }
     }
     return texture;
+}
+
+IntRect** Background::createHitboxBackground()
+{
+    IntRect** hitbox = new IntRect*[NB_WINDOW_TUILES_Y];
+    for (int o = 0; o < NB_WINDOW_TUILES_Y; o++)
+        hitbox[o] = new IntRect[NB_WINDOW_TUILES_X];
+
+    int c, d;
+    for(c=0;c<NB_WINDOW_TUILES_Y;c++)
+    {   
+        for(d=0;d<NB_WINDOW_TUILES_X;d++)
+        {
+            if(tabBackground[c][d]==9)
+            {
+                hitbox[c][d].width=0;
+                hitbox[c][d].height=0;
+            }
+            else
+            {
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H;
+            }
+            hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
+            hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
+            //cout<<"  p.x= "<<hitbox[c][d].left;
+            //cout<<"  p.y= "<<hitbox[c][d].top;
+            //cout<<"  s.x= "<<hitbox[c][d].width;
+            //cout<<"  s.y= "<<hitbox[c][d].height<<endl;
+        }
+    }
+
+    return hitbox;
+
+}
+
+IntRect** Background::getHitboxBackground()
+{
+    return hitboxBackground;
+}
+
+Sprite** Background::getSpriteBackground()
+{
+    return spriteBackground;
+}
+
+void Background::dessinerHitbox(IntRect hitbox,RenderWindow *window)
+{
+
+    RectangleShape rectangle(Vector2f(hitbox.width,hitbox.height));
+    rectangle.setPosition(Vector2f(hitbox.left,hitbox.top));
+    rectangle.setFillColor(Color::Green);
+    window->draw(rectangle); 
 }
