@@ -30,6 +30,7 @@
 
 #include "personnage.hpp"
 #include "background.hpp"
+#include "constantes.hpp"
 
 
     int main()
@@ -39,7 +40,7 @@
     	window.setFramerateLimit(60);
     	window.setKeyRepeatEnabled (true); 	
 
-    	int const vitessePerso = 5;
+    	int const vitessePerso = 2*AGRANDISSEMENT;
 
     	
 		//avec classe parsonnage

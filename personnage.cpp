@@ -17,7 +17,7 @@
 */
 
 #include "personnage.hpp"
-
+#include "constantes.hpp"
 
     Personnage::Personnage()
     {
@@ -109,11 +109,11 @@ IntRect Personnage::createHitboxPerso()
 	int py=getPosition().y;
 	int sx=texturePerso[directionPerso][varAnimation].getSize().x;
 	int sy=texturePerso[directionPerso][varAnimation].getSize().y;
-	Vector2i position(px, py+sy-sy/3);
-	Vector2i size(sx, sy/3);
+	Vector2i position(px*AGRANDISSEMENT, (py+sy-sy/3)*AGRANDISSEMENT);
+	Vector2i size(sx*AGRANDISSEMENT, (sy/3)*AGRANDISSEMENT);
 	IntRect hitboxPerso(position, size);
-		cout<<"p.x= "<<px<<endl;
-	cout<<"p.y= "<<py+sy-sy/3<<endl;//
+	cout<<"p.x= "<<hitboxPerso.left<<endl;
+	cout<<"p.y= "<<hitboxPerso.top<<endl;//
 	cout<<"s.x= "<<sx<<endl;
 	cout<<"s.y= "<<sy/3<<endl;
 }

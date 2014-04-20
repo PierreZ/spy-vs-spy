@@ -17,6 +17,7 @@
 */
 
 #include "background.hpp"
+#include "constantes.hpp"
 
     Background::Background()
     {

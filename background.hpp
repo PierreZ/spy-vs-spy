@@ -19,7 +19,6 @@
 #ifndef BACKGROUND_H
 #define BACKGROUND_H
 
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>

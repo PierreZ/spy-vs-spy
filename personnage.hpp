@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "constantes.hpp"
+
 
 using namespace std;
 using namespace sf;

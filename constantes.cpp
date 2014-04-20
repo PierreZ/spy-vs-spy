@@ -16,37 +16,4 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CONSTANTES_H
-#define CONSTANTES_H
-
-// Constante
-/*#define AGRANDISSEMENT 3
-#define DIV_FREQ_ANIMATION 6
-
-#define TUILE_W 16
-#define TUILE_H 24
-
-#define NB_WINDOW_TUILES_X 16
-#define NB_WINDOW_TUILES_Y 8
-
-#define SPRITE_UP 0
-#define SPRITE_DOWN 1
-#define SPRITE_LEFT 2
-#define SPRITE_RIGHT 3
-*/
-
-const int AGRANDISSEMENT=2;
-const int DIV_FREQ_ANIMATION=9;
-
-const int TUILE_W=16;
-const int TUILE_H=24;
-
-const int NB_WINDOW_TUILES_X=16;
-const int NB_WINDOW_TUILES_Y=8;
-
-const int SPRITE_UP=0;
-const int SPRITE_DOWN=1;
-const int SPRITE_LEFT=2;
-const int SPRITE_RIGHT=3;
-
-#endif // CONSTANTES_H
+#include "background.hpp"
