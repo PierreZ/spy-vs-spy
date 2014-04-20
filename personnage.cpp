@@ -153,28 +153,37 @@ void Personnage::movePerso(float x, float y, Background *salle)
 	int possibilite=0;
 	IntRect rectSpriteBackground;
 	IntRect rectHitboxSpriteBackground;
-	for(c=0;c<NB_WINDOW_TUILES_Y;c++)
-	{   
-		for(d=0;d<NB_WINDOW_TUILES_X;d++)
-		{
-			rectSpriteBackground=(IntRect)salle->getSpriteBackground()[c][d].getGlobalBounds();
+	bool done = false;
+	while(!done)
+	{
+		for(c=0;c<NB_WINDOW_TUILES_Y;c++)
+		{   
+			for(d=0;d<NB_WINDOW_TUILES_X;d++)
+			{
+				rectSpriteBackground=(IntRect)salle->getSpriteBackground()[c][d].getGlobalBounds();
 			//cout<<"rectSpriteBackground.x= "<<rectSpriteBackground.left<<"  rectSpriteBackground.y= "<<rectSpriteBackground.top<<"  rectSpriteBackground.x= "<<rectSpriteBackground.width<<"  rectSpriteBackground.y= "<<rectSpriteBackground.height<<endl;
 
-			if(rectSprite.intersects(rectSpriteBackground))
-			{
-				rectHitboxSpriteBackground=salle->getHitboxBackground()[c][d];
-				if((hitboxPersoTemp.intersects(rectHitboxSpriteBackground)))
+				if(rectSprite.intersects(rectSpriteBackground))
 				{
-					possibilite=0;
-					//cout<<"dalle= "<<c<<"-"<<d<<endl;
+					rectHitboxSpriteBackground=salle->getHitboxBackground()[c][d];
+					if((hitboxPersoTemp.intersects(rectHitboxSpriteBackground)))
+					{
+						possibilite=0;
+						//cout<<"collision dalle= "<<c<<"-"<<d<<endl;
+						done=true;
+						c=NB_WINDOW_TUILES_X-1;
+						break;
 					//cout<<"rectHitboxSpriteBackground.x= "<<rectHitboxSpriteBackground.left<<"  rectHitboxSpriteBackground.y= "<<rectHitboxSpriteBackground.top<<"  rectHitboxSpriteBackground.x= "<<rectHitboxSpriteBackground.width<<"  rectHitboxSpriteBackground.y= "<<rectHitboxSpriteBackground.height<<endl;
-				}
-				else
-				{
-					possibilite=1;
+					}
+					else
+					{
+						possibilite++;
+						//cout<<"possibilite="<<possibilite<<endl;
+					}
 				}
 			}
 		}
+		done=true;
 	}
 	if(possibilite!=0)
 	{		
@@ -187,10 +196,10 @@ void Personnage::movePerso(float x, float y, Background *salle)
 void Personnage::dessinerHitbox(IntRect hitbox,RenderWindow *window)
 {
 
-    RectangleShape rectangle(Vector2f(hitbox.width,hitbox.height));
-    rectangle.setPosition(Vector2f(hitbox.left,hitbox.top));
-    rectangle.setFillColor(Color::Green);
-    window->draw(rectangle); 
+	RectangleShape rectangle(Vector2f(hitbox.width,hitbox.height));
+	rectangle.setPosition(Vector2f(hitbox.left,hitbox.top));
+	rectangle.setFillColor(Color::Green);
+	window->draw(rectangle); 
 }
 
 IntRect Personnage::getHitboxPerso()

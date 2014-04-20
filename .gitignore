@@ -4,3 +4,5 @@ event_loop.o
 spy-vs-spy
 personnage.o
 background.o
+constantes.o
+

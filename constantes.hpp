@@ -38,6 +38,4 @@ const int SPRITE_LEFT=2;
 const int SPRITE_RIGHT=3;
 
 
-
-
 #endif // CONSTANTES_H
