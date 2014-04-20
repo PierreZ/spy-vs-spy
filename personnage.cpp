@@ -40,7 +40,7 @@
     	varAnimation=0;
     	setTexture(texturePerso[0][varAnimation]);
     	setScale(AGRANDISSEMENT,AGRANDISSEMENT);
-    	setPosition(50,50);
+    	setPosition(100,100);
     	hitboxPerso=createHitboxPerso();
 		//cout<<"---------------->p.x= "<<hitboxPerso.left;
 		//cout<<"  p.y= "<<hitboxPerso.top;

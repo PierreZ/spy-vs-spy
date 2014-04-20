@@ -23,7 +23,7 @@
 #define CONSTANTES_H
 
 // Constantes
-const int AGRANDISSEMENT=2;//
+const int AGRANDISSEMENT=3;
 const int DIV_FREQ_ANIMATION=9;
 
 const int TUILE_W=16;
