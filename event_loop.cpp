@@ -40,15 +40,15 @@
     	//cout<<"result="<<5+asa<<endl;
 
     	sf::RenderWindow window(sf::VideoMode(TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X, TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y), "SFML works!");
-    	window.setFramerateLimit(60);
+    	window.setFramerateLimit(80);
     	window.setKeyRepeatEnabled (true); 	
 
-    	int const vitessePerso = 2*AGRANDISSEMENT;
+    	int const vitessePerso = 1*AGRANDISSEMENT;
 
     	
 		//avec classe parsonnage
     	Personnage player1;
-    	player1.setTextureFromImage("ressources/player1.png");
+    	player1.setTextureFromImage("ressources/link1.png");
     	
     	Background salle1;
 
@@ -126,7 +126,8 @@
     		salle1.drawBackground(&window);
 
     		window.draw(player1);
-    		player1.dessinerHitbox(player1.getHitboxPerso(), &window);
+    		//player1.dessinerHitbox(player1.getHitboxPerso(), &window);
+    		//salle1.dessinerHitbox(salle1.getHitboxBackground(), &window);
 
     		window.display();
     	}

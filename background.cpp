@@ -185,7 +185,7 @@
                     tab[i][j]=11;
                 }
                 else if(i==1 
-            && j==NB_WINDOW_TUILES_X/2 )//coté droit porte du haut
+            && j==NB_WINDOW_TUILES_X/2 )//coté droit porte du haut2
                 {
                     tab[i][j]=21;
                 }
@@ -195,27 +195,27 @@
                     tab[i][j]=12;
                 }
                 else if(i==1
-            && j==NB_WINDOW_TUILES_X/2-1 )//coté gauche porte du haut
+            && j==NB_WINDOW_TUILES_X/2-1 )//coté gauche porte du haut2
                 {
                     tab[i][j]=22;
                 }
                 else if(i==NB_WINDOW_TUILES_Y-1
-            && j==NB_WINDOW_TUILES_X/2 )//coté droit porte du haut
+            && j==NB_WINDOW_TUILES_X/2 )//coté droit porte du bas
                 {
                     tab[i][j]=13;
                 }
                 else if(i==NB_WINDOW_TUILES_Y-2
-            && j==NB_WINDOW_TUILES_X/2 )//coté droit porte du haut
+            && j==NB_WINDOW_TUILES_X/2 )//coté droit porte du bas2
                 {
                     tab[i][j]=23;
                 }
                 else if(i==NB_WINDOW_TUILES_Y-1
-            && j==NB_WINDOW_TUILES_X/2-1 )//coté gauche porte du haut
+            && j==NB_WINDOW_TUILES_X/2-1 )//coté gauche porte du bas
                 {
                     tab[i][j]=14;
                 }
                 else if(i==NB_WINDOW_TUILES_Y-2
-            && j==NB_WINDOW_TUILES_X/2-1 )//coté gauche porte du haut
+            && j==NB_WINDOW_TUILES_X/2-1 )//coté gauche porte du bas2
                 {
                     tab[i][j]=24;
                 }
@@ -430,7 +430,6 @@
             for(j=0;j<NB_WINDOW_TUILES_X;j++)
             {
                 window->draw(spriteBackground[i][j]);   
-                dessinerHitbox(hitboxBackground[i][j],window);
             }
         }
     }
@@ -505,8 +504,8 @@ IntRect** Background::createHitboxBackground()
                 hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
                 break;
 
-                //moitié gauche en longuer
-                case 26: case 25: case 1002: case 44: case 66:
+                //moitié gauche en longueur
+                case 1002: case 44: case 66:
                 hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/2;
                 hitbox[c][d].height=AGRANDISSEMENT*TUILE_H;
                 hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
@@ -514,21 +513,78 @@ IntRect** Background::createHitboxBackground()
                 break;
 
 
-                //moitié droite en longuer
-                case 27: case 28: case 1003: case 55:  case 77:
+                //moitié droite en longueur
+                case 1003: case 55:  case 77:
                 hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/2;
                 hitbox[c][d].height=AGRANDISSEMENT*TUILE_H;
                 hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W+AGRANDISSEMENT*TUILE_W/2;
                 hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
                 break;
 
-                //moitié gauche en largeur
-              /*  case 27: case 28: case 1003: case 55:  case 77:
-                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/2;
+                //tiers gauche en largeur
+                case 12: case 14:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/3;
                 hitbox[c][d].height=AGRANDISSEMENT*TUILE_H;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
+                break;
+
+
+                //tiers droit en largeur
+                case 11: case 13:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/3;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W+(2*AGRANDISSEMENT*TUILE_W)/3;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
+                break;
+
+                //moitié haute
+                case 16: case 17:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H/2;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
+                break;
+
+                //moitié basse
+                case 15: case 18:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H/2;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H+AGRANDISSEMENT*TUILE_H/2;
+                break;
+
+                //quart haut gauche
+                case 26:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/2;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H/2;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
+                break;
+
+                //quart bas gauche
+                case 25:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/2;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H/2;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H+AGRANDISSEMENT*TUILE_H/2;
+                break;
+
+                //quart haut droit
+                case 27:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/2;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H/2;
                 hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W+AGRANDISSEMENT*TUILE_W/2;
                 hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H;
-                break;*/
+                break;
+
+                //quart bas droit
+                case 28:
+                hitbox[c][d].width=AGRANDISSEMENT*TUILE_W/2;
+                hitbox[c][d].height=AGRANDISSEMENT*TUILE_H/2;
+                hitbox[c][d].left=AGRANDISSEMENT*d*TUILE_W+AGRANDISSEMENT*TUILE_W/2;
+                hitbox[c][d].top=AGRANDISSEMENT*c*TUILE_H+AGRANDISSEMENT*TUILE_H/2;
+                break;
 
 
                 //hibox pleine
@@ -562,11 +618,17 @@ Sprite** Background::getSpriteBackground()
     return spriteBackground;
 }
 
-void Background::dessinerHitbox(IntRect hitbox,RenderWindow *window)
+void Background::dessinerHitbox(IntRect** hitbox,RenderWindow *window)
 {
-
-    RectangleShape rectangle(Vector2f(hitbox.width,hitbox.height));
-    rectangle.setPosition(Vector2f(hitbox.left,hitbox.top));
-    rectangle.setFillColor(Color::Green);
-    window->draw(rectangle); 
+    int i,j;
+    for(i=0;i<NB_WINDOW_TUILES_Y;i++)
+    {   
+        for(j=0;j<NB_WINDOW_TUILES_X;j++)
+        {
+            RectangleShape rectangle(Vector2f(hitbox[i][j].width,hitbox[i][j].height));
+            rectangle.setPosition(Vector2f(hitbox[i][j].left,hitbox[i][j].top));
+            rectangle.setFillColor(Color::Green);
+            window->draw(rectangle); 
+        }
+    }
 }

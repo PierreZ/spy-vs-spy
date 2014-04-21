@@ -57,7 +57,7 @@ class Background
 
         Sprite** getSpriteBackground();
         
-        void dessinerHitbox(IntRect hitbox,RenderWindow *window);
+        void dessinerHitbox(IntRect **hitbox,RenderWindow *window);
 
     protected:
 

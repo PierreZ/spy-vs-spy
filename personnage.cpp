@@ -112,9 +112,9 @@ void Personnage::setDirection(int sprite_direction)
 IntRect Personnage::createHitboxPerso()
 {
 	// Define another rectangle, located at (4, 2) with a size of 18x10
-	int px=getPosition().x;
+	int px=getPosition().x+5;
 	int py=getPosition().y;
-	int sx=AGRANDISSEMENT*texturePerso[directionPerso][varAnimation].getSize().x;
+	int sx=AGRANDISSEMENT*texturePerso[directionPerso][varAnimation].getSize().x-5;
 	int sy=AGRANDISSEMENT*texturePerso[directionPerso][varAnimation].getSize().y;
 	//cout<<"  px= "<<px<<";  py= "<<py<<";  sx= "<< sx<< ";  sy= "<<sy<<endl;
 	Vector2i position(px, (py+sy-sy/3));
