@@ -15,29 +15,50 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+#ifndef LEVEL_H
+#define LEVEL_H
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <iostream>
+
+#include "background.hpp"
+
+#include <stdlib.h>
+#include <stdio.h>
 
 
-#ifndef CONSTANTES_H
-#define CONSTANTES_H
 
-// Constantes
-const int AGRANDISSEMENT=2;
-const int DIV_FREQ_ANIMATION=9;
-
-const int TUILE_W=16;
-const int TUILE_H=24;
-
-const int NB_WINDOW_TUILES_X=16;
-const int NB_WINDOW_TUILES_Y=8;
-
-const int SPRITE_UP=0;
-const int SPRITE_DOWN=1;
-const int SPRITE_LEFT=2;
-const int SPRITE_RIGHT=3;
-
-int const vitessePerso = 1*AGRANDISSEMENT;
+using namespace std;
+using namespace sf;
 
 
-#endif // CONSTANTES_H
+class Level
+{
+    public:
+
+    	Level();
+    	~Level();
+
+    	Background ***getTabBackground();
+
+    	Background *getBackgroundActuel();
+
+    	void setBackgroundActuel(Background *nouveauBackground);
+
+    	Vector2i getPositionLevel();
+
+    	void setPositionLevel(int x, int y);
+
+    private:
+
+    	Background*** tabBackground;
+    	string* nomBackground_bases;
+    	Background *salleActuelle;
+    	Vector2i positionLevel;
+
+};
+
+
+#endif // LEVEL_H

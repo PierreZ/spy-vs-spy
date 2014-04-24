@@ -24,6 +24,7 @@
 #include <iostream>
 
 #include "background.hpp"
+#include "level.hpp"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -55,11 +56,15 @@ class Personnage: public Sprite
 
         IntRect createHitboxPerso();
 
-        void movePerso(float x, float y, Background *salle);
+        void movePerso(float x, float y, Level *levelActuel);
 
         void dessinerHitbox(IntRect hitbox,RenderWindow *window);
 
         IntRect getHitboxPerso();
+
+        void afficherIntrect(IntRect rectangle);
+
+        int testSortieSalle(Background *salle);
 
     private:
 

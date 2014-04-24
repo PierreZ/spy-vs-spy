@@ -25,16 +25,16 @@
 
 
 
-    using namespace sf;
+ 	using namespace sf;
     using namespace std; 
 
 #include "personnage.hpp"
 #include "background.hpp"
+#include "level.hpp"
 #include "constantes.hpp"
 
 
-    void afficherIntrect(IntRect rectangle);
-    int testSortieSalle(Background *salle, Personnage *perso);
+
 
     int main()
     {
@@ -42,22 +42,20 @@
     	//int asa=-5;
     	//cout<<"result="<<5+asa<<endl;
 
-    	sf::RenderWindow window(sf::VideoMode(TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X, TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y), "SFML works!");
+    	sf::RenderWindow window(sf::VideoMode(2*TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X, TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y), "Spy vs Spy");
     	window.setFramerateLimit(80);
     	window.setKeyRepeatEnabled (true); 	
+ 	
+    	Level level1;
 
-    	
 
-    	
 		//avec classe parsonnage
     	Personnage player1;
     	player1.setTextureFromImage("ressources/link1.png");
 
 
     	
-    	Background *salle1=new Background("ressources/background_base2.png");
-    	Background *salle2=new Background("ressources/background_base1.png");
-    	Background *salleActuelle=salle1;
+
 
     	int x,y;
 
@@ -103,25 +101,25 @@
     		switch(direction)
     		{
     			case sf::Keyboard::Left:
-    			player1.movePerso(-vitessePerso,0,salleActuelle); 
+    			player1.movePerso(-vitessePerso,0,&level1); 
     			player1.setDirection(SPRITE_LEFT);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Right:
-    			player1.movePerso(vitessePerso,0,salleActuelle);
+    			player1.movePerso(vitessePerso,0,&level1);
     			player1.setDirection(SPRITE_RIGHT);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Up:			
-    			player1.movePerso(0,-vitessePerso,salleActuelle);
+    			player1.movePerso(0,-vitessePerso,&level1);
     			player1.setDirection(SPRITE_UP);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Down:
-    			player1.movePerso(0,vitessePerso,salleActuelle);
+    			player1.movePerso(0,vitessePerso,&level1);
     			player1.setDirection(SPRITE_DOWN);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
@@ -131,16 +129,11 @@
 
     		window.clear();
 
-    		salleActuelle->drawBackground(&window);
+    		level1.getBackgroundActuel()->drawBackground(&window);
     		//salleActuelle.dessinerLimitesBackground(&window);
 
     		window.draw(player1);
 
-    		if(testSortieSalle(salleActuelle,&player1)==1)
-    		{
-    			salleActuelle=salle2;
-    			player1.movePerso(0,-salleActuelle->getLimitesBackground().height,salleActuelle);
-    		}
 
     		
     		//player1.dessinerHitbox(player1.getHitboxPerso(), &window);
@@ -155,38 +148,4 @@
     	return 0;
     }
 
-
-    void afficherIntrect(IntRect rectangle)
-    {
-    	cout<<"  rect.lft= "<<rectangle.left;
-    	cout<<"  rect.top "<<rectangle.top;
-    	cout<<"  rect.width= "<<rectangle.width;
-    	cout<<"  rect.height= "<<rectangle.height<<endl;
-    }
-
-    int testSortieSalle(Background *salle, Personnage *perso)
-    {
-    	IntRect resultIntesect;
-    	perso->getHitboxPerso().intersects(salle->getLimitesBackground(), resultIntesect);
-    	//afficherIntrect(resultIntesect);
-
-    	if(resultIntesect.width!=0 || resultIntesect.height!=0 )
-    	{
-    		return 4;
-    	}
-    	else
-    	{
-    		 if(perso->getHitboxPerso().top<salle->getLimitesBackground().top)
-    			return 0; //haut
-    		else if(perso->getHitboxPerso().top>=salle->getLimitesBackground().top+salle->getLimitesBackground().height)
-    			return 1;//bas
-    		else if(perso->getHitboxPerso().left<salle->getLimitesBackground().left)
-    			return 2;//gauche
-    		else if(perso->getHitboxPerso().left>=salle->getLimitesBackground().left+salle->getLimitesBackground().width)
-    			return 3;//droite
-    		else
-    			return 4;
-    	}
-
-    }
 

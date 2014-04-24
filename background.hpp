@@ -36,10 +36,10 @@ class Background
 {
     public:
 
-        Background(string nomImage);
+        Background(string nomImage, bool porteHaut, bool porteBas, bool porteGauche, bool porteDoite);
         ~Background();
 
-        int** mappageBackground();
+        int** mappageBackground(bool porteHaut, bool porteBas, bool porteGauche, bool porteDoite);
 
         Sprite** createSpritesBackground();
 

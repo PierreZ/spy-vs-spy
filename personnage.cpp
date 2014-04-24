@@ -133,8 +133,9 @@ void Personnage::bougerHitboxPerso(int x, int y)
 	hitboxPerso.left+=x;
 }
 
-void Personnage::movePerso(float x, float y, Background *salle)
+void Personnage::movePerso(float x, float y, Level *levelActuel)
 {
+
 	IntRect rectSprite;
 	rectSprite.top=getGlobalBounds().top+y;
 	rectSprite.left=getGlobalBounds().left+x;
@@ -160,12 +161,12 @@ void Personnage::movePerso(float x, float y, Background *salle)
 		{   
 			for(d=0;d<NB_WINDOW_TUILES_X;d++)
 			{
-				rectSpriteBackground=(IntRect)salle->getSpriteBackground()[c][d].getGlobalBounds();
+				rectSpriteBackground=(IntRect)levelActuel->getBackgroundActuel()->getSpriteBackground()[c][d].getGlobalBounds();
 			//cout<<"rectSpriteBackground.x= "<<rectSpriteBackground.left<<"  rectSpriteBackground.y= "<<rectSpriteBackground.top<<"  rectSpriteBackground.x= "<<rectSpriteBackground.width<<"  rectSpriteBackground.y= "<<rectSpriteBackground.height<<endl;
 
 				if(rectSprite.intersects(rectSpriteBackground))
 				{
-					rectHitboxSpriteBackground=salle->getHitboxBackground()[c][d];
+					rectHitboxSpriteBackground=levelActuel->getBackgroundActuel()->getHitboxBackground()[c][d];
 					if((hitboxPersoTemp.intersects(rectHitboxSpriteBackground)))
 					{
 						possibilite=0;
@@ -190,6 +191,32 @@ void Personnage::movePerso(float x, float y, Background *salle)
 		move(x,y);
 		bougerHitboxPerso((int)x,(int)y);
 		//cout<<"p.x= "<<hitboxPerso.left<<"  p.y= "<<hitboxPerso.top<<"  s.x= "<<hitboxPerso.width<<"  s.y= "<<hitboxPerso.height<<endl;
+		switch(testSortieSalle(levelActuel->getBackgroundActuel()))
+		{
+			case 1:
+			levelActuel->setPositionLevel(levelActuel->getPositionLevel().x,levelActuel->getPositionLevel().y+1);
+			//levelActuel->setBackgroundActuel(levelActuel->getTabBackground());
+			movePerso(0,-levelActuel->getBackgroundActuel()->getLimitesBackground().height-getHitboxPerso().height,levelActuel);
+			break;
+
+			case 0:
+			levelActuel->setPositionLevel(levelActuel->getPositionLevel().x,levelActuel->getPositionLevel().y-1);
+			movePerso(0,levelActuel->getBackgroundActuel()->getLimitesBackground().height+getHitboxPerso().height,levelActuel);
+			break;
+
+			case 2:
+			//salleActuelle=salle2;
+			movePerso(levelActuel->getBackgroundActuel()->getLimitesBackground().width+getHitboxPerso().width,0,levelActuel);
+			break;
+
+			case 3:
+			//salleActuelle=salle2;
+			movePerso(-levelActuel->getBackgroundActuel()->getLimitesBackground().width-getHitboxPerso().width,0,levelActuel);
+			break;
+
+			default:
+			break;
+		}
 	}
 }
 
@@ -206,6 +233,40 @@ IntRect Personnage::getHitboxPerso()
 {
 	return hitboxPerso;
 }
+
+void Personnage::afficherIntrect(IntRect rectangle)
+{
+	cout<<"  rect.lft= "<<rectangle.left;
+	cout<<"  rect.top "<<rectangle.top;
+	cout<<"  rect.width= "<<rectangle.width;
+	cout<<"  rect.height= "<<rectangle.height<<endl;
+}
+
+int Personnage::testSortieSalle(Background *salle)
+{
+	IntRect resultIntesect;
+	hitboxPerso.intersects(salle->getLimitesBackground(), resultIntesect);
+    	//afficherIntrect(resultIntesect);
+
+	if(resultIntesect.width!=0 || resultIntesect.height!=0 )
+	{
+		return 4;
+	}
+	else
+	{
+		if(hitboxPerso.top<salle->getLimitesBackground().top)
+    			return 0; //haut
+    		else if(hitboxPerso.top>salle->getLimitesBackground().top+salle->getLimitesBackground().height)
+    			return 1;//bas
+    		else if(hitboxPerso.left<salle->getLimitesBackground().left)
+    			return 2;//gauche
+    		else if(hitboxPerso.left>salle->getLimitesBackground().left+salle->getLimitesBackground().width)
+    			return 3;//droite
+    		else
+    			return 4;
+    	}
+
+    }
 
 
 

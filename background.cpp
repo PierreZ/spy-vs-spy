@@ -19,10 +19,10 @@
 #include "background.hpp"
 #include "constantes.hpp"
 
-    Background::Background(string nomImage)
+    Background::Background(string nomImage, bool porteHaut, bool porteBas, bool porteGauche, bool porteDoite)
     {
         texture_background =loadTexture2(nomImage,9,6);
-        tabBackground=mappageBackground();
+        tabBackground=mappageBackground(porteHaut, porteBas, porteGauche, porteDoite);
         spriteBackground = createSpritesBackground();
         hitboxBackground=createHitboxBackground();
         createLimitesBackground();
@@ -31,10 +31,9 @@
     Background::~Background()
     {
         freeTable(tabBackground);
-
     }
 
-    int** Background::mappageBackground()
+    int** Background::mappageBackground(bool porteHaut, bool porteBas, bool porteGauche, bool porteDoite)
     {
         int **tab=createTable(NB_WINDOW_TUILES_Y, NB_WINDOW_TUILES_X);
 
@@ -183,87 +182,136 @@
                 else if(i==0 
             && j==NB_WINDOW_TUILES_X/2 )//coté droit porte du haut
                 {
-                    tab[i][j]=11;
+                    if(porteHaut)
+                        tab[i][j]=11;
+                    else
+                        tab[i][j]=0;//up
                 }
                 else if(i==1 
             && j==NB_WINDOW_TUILES_X/2 )//coté droit porte du haut2
                 {
-                    tab[i][j]=21;
+                    if(porteHaut)
+                        tab[i][j]=21;
+                    else
+                        tab[i][j]=1000;//up
                 }
                 else if(i==0 
             && j==NB_WINDOW_TUILES_X/2-1 )//coté gauche porte du haut
                 {
-                    tab[i][j]=12;
+                    if(porteHaut)
+                        tab[i][j]=12;
+                    else
+                        tab[i][j]=0;//up
                 }
                 else if(i==1
             && j==NB_WINDOW_TUILES_X/2-1 )//coté gauche porte du haut2
                 {
-                    tab[i][j]=22;
+                    if(porteHaut)
+                        tab[i][j]=22;
+                    else
+                        tab[i][j]=1000;//up
                 }
                 else if(i==NB_WINDOW_TUILES_Y-1
             && j==NB_WINDOW_TUILES_X/2 )//coté droit porte du bas
                 {
-                    tab[i][j]=13;
+                     if(porteBas)
+                        tab[i][j]=13;
+                    else
+                        tab[i][j]=1;//up
                 }
                 else if(i==NB_WINDOW_TUILES_Y-2
             && j==NB_WINDOW_TUILES_X/2 )//coté droit porte du bas2
                 {
-                    tab[i][j]=23;
+                     if(porteBas)
+                        tab[i][j]=23;
+                    else
+                        tab[i][j]=1001;//up
                 }
                 else if(i==NB_WINDOW_TUILES_Y-1
             && j==NB_WINDOW_TUILES_X/2-1 )//coté gauche porte du bas
                 {
-                    tab[i][j]=14;
+                     if(porteBas)
+                        tab[i][j]=14;
+                    else
+                        tab[i][j]=1;//up
                 }
                 else if(i==NB_WINDOW_TUILES_Y-2
             && j==NB_WINDOW_TUILES_X/2-1 )//coté gauche porte du bas2
                 {
-                    tab[i][j]=24;
+                     if(porteBas)
+                        tab[i][j]=24;
+                    else
+                        tab[i][j]=1001;//up
                 }
                 else if(j==0 
             && i==NB_WINDOW_TUILES_Y/2 )//coté droit porte du haut
                 {
-                    tab[i][j]=15;
+                     if(porteGauche)
+                        tab[i][j]=15;
+                    else
+                        tab[i][j]=2;//droite
                 }
                 else if(j==1 
             && i==NB_WINDOW_TUILES_Y/2 )//coté droit porte du haut
                 {
-                    tab[i][j]=25;
+                     if(porteGauche)
+                        tab[i][j]=25;
+                    else
+                        tab[i][j]=1002;//droite
                 }
                 else if(j==0 
             && i==NB_WINDOW_TUILES_Y/2-1 )//coté gauche porte du haut
                 {
-                    tab[i][j]=16;
+                     if(porteGauche)
+                        tab[i][j]=16;
+                    else
+                        tab[i][j]=2;//droite
                 }
                 else if(j==1
             && i==NB_WINDOW_TUILES_Y/2-1 )//coté gauche porte du haut
                 {
-                    tab[i][j]=26;
+                     if(porteGauche)
+                        tab[i][j]=26;
+                    else
+                        tab[i][j]=1002;//droite
                 }
                 else if(j==NB_WINDOW_TUILES_X-1 
             && i==NB_WINDOW_TUILES_Y/2-1 )//bas porte droite
                 {
-                    tab[i][j]=17;
+                     if(porteDoite)
+                        tab[i][j]=17;
+                    else
+                        tab[i][j]=3;//droite
                 }
                 else if(j==NB_WINDOW_TUILES_X-2
-            && i==NB_WINDOW_TUILES_Y/2-1 )//bas porte droite
+            && i==NB_WINDOW_TUILES_Y/2-1 )//bas porte droite2
                 {
-                    tab[i][j]=27;
+                     if(porteDoite)
+                        tab[i][j]=27;
+                    else
+                        tab[i][j]=1003;//droite
                 }
                 else if(j==NB_WINDOW_TUILES_X-1
             && i==NB_WINDOW_TUILES_Y/2 )//haut porte droite
                 {
-                    tab[i][j]=18;
+                     if(porteDoite)
+                        tab[i][j]=18;
+                    else
+                        tab[i][j]=3;//droite
                 }
                 else if(j==NB_WINDOW_TUILES_X-2
-            && i==NB_WINDOW_TUILES_Y/2 )//haut porte droite
+            && i==NB_WINDOW_TUILES_Y/2 )//haut porte droite2
                 {
-                    tab[i][j]=28;
+                     if(porteDoite)
+                        tab[i][j]=28;
+                    else
+                        tab[i][j]=1003;//droite
                 }
                 else
                 {
                     tab[i][j]=9;
                 }
+
                 cout<<tab[i][j];
             }
             cout<<endl;
