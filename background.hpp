@@ -36,7 +36,7 @@ class Background
 {
     public:
 
-        Background();
+        Background(string nomImage);
         ~Background();
 
         int** mappageBackground();
@@ -59,13 +59,18 @@ class Background
         
         void dessinerHitbox(IntRect **hitbox,RenderWindow *window);
 
-    protected:
+        void createLimitesBackground();
+
+        IntRect getLimitesBackground();
+
+        void dessinerLimitesBackground(RenderWindow *window);
 
     private:
         Texture **texture_background;
         int** tabBackground;
         Sprite **spriteBackground;
         IntRect** hitboxBackground;
+        IntRect limitesBackground;
 };
 
 #endif //BACKGROUND_H

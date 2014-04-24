@@ -19,12 +19,13 @@
 #include "background.hpp"
 #include "constantes.hpp"
 
-    Background::Background()
+    Background::Background(string nomImage)
     {
-        texture_background =loadTexture2("ressources/background_base1.png",9,6);
+        texture_background =loadTexture2(nomImage,9,6);
         tabBackground=mappageBackground();
         spriteBackground = createSpritesBackground();
         hitboxBackground=createHitboxBackground();
+        createLimitesBackground();
     }
 
     Background::~Background()
@@ -631,4 +632,27 @@ void Background::dessinerHitbox(IntRect** hitbox,RenderWindow *window)
             window->draw(rectangle); 
         }
     }
+}
+
+void Background::createLimitesBackground()
+{
+    limitesBackground.top=(TUILE_W+TUILE_W/2)*AGRANDISSEMENT;
+    limitesBackground.left=TUILE_H*AGRANDISSEMENT;
+    limitesBackground.width=(NB_WINDOW_TUILES_X-3)*TUILE_W*AGRANDISSEMENT;
+    limitesBackground.height=(NB_WINDOW_TUILES_Y-2)*TUILE_H*AGRANDISSEMENT;
+
+}
+
+IntRect Background::getLimitesBackground()
+{
+    return limitesBackground;
+}
+
+void Background::dessinerLimitesBackground(RenderWindow *window)
+{
+    RectangleShape rectangle(Vector2f(limitesBackground.width,limitesBackground.height));
+    rectangle.setPosition(Vector2f(limitesBackground.left,limitesBackground.top));
+    rectangle.setFillColor(Color::Blue);
+    window->draw(rectangle); 
+
 }

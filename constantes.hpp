@@ -37,5 +37,7 @@ const int SPRITE_DOWN=1;
 const int SPRITE_LEFT=2;
 const int SPRITE_RIGHT=3;
 
+int const vitessePerso = 1*AGRANDISSEMENT;
+
 
 #endif // CONSTANTES_H
