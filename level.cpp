@@ -37,16 +37,16 @@
     	tabBackground=fonction_allocation(4,2);
 
 
-    	tabBackground[0][0].loadImage("ressources/background_base1.png");
+    	tabBackground[0][0].loadImage( nomImage1);
     	tabBackground[0][0].createBackground(0,1,0,1);
     	
-    	tabBackground[0][1].loadImage("ressources/background_base2.png");
+    	tabBackground[0][1].loadImage( nomImage1);
     	tabBackground[0][1].createBackground(1,0,0,1);
 
-    	tabBackground[1][0].loadImage("ressources/background_base1.png");
+    	tabBackground[1][0].loadImage( nomImage1);
     	tabBackground[1][0].createBackground(0,1,1,0);
     	
-    	tabBackground[1][1].loadImage("ressources/background_base2.png");
+    	tabBackground[1][1].loadImage( nomImage1);
     	tabBackground[1][1].createBackground(1,0,1,0);
 
    }

@@ -25,7 +25,7 @@
 
 
 
- 	using namespace sf;
+    using namespace sf;
     using namespace std; 
 
 #include "personnage.hpp"
@@ -42,10 +42,11 @@
     	//int asa=-5;
     	//cout<<"result="<<5+asa<<endl;
 
-    	sf::RenderWindow window(sf::VideoMode(TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X, TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y), "Spy vs Spy");
+    	sf::RenderWindow window(sf::VideoMode(2*TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X, TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y), "Spy vs Spy");
+    	//window.setPosition (sf::Vector2i(200,200));
     	window.setFramerateLimit(50);
     	window.setKeyRepeatEnabled (true); 	
- 	
+
     	Level level1;
 
 
@@ -53,14 +54,18 @@
     	Personnage player1(&level1);
     	player1.setTextureFromImage("ressources/link1.png");
 
+    	Personnage player2(&level1);
+    	player2.setTextureFromImage("ressources/player1.png");
 
-    	
-    	int x,y;
+
+
+
+    	sf::Keyboard::Key direction1;
+    	sf::Keyboard::Key direction2;
 
 
     	while (window.isOpen())
     	{
-    		sf::Keyboard::Key direction;
 
     		sf::Event event;
     		while (window.pollEvent(event))
@@ -79,8 +84,17 @@
     					|| event.key.code == sf::Keyboard::Down
     					)
     				{
-    					direction = event.key.code;
+    					direction1 = event.key.code;
     				}
+    				if (event.key.code == sf::Keyboard::Q
+    					|| event.key.code == sf::Keyboard::D
+    					|| event.key.code == sf::Keyboard::Z
+    					|| event.key.code == sf::Keyboard::S
+    					)
+    				{
+    					direction2 = event.key.code;
+    				}
+
 
     			}
     			else if(event.type == sf::Event::KeyReleased){
@@ -90,13 +104,22 @@
     					|| event.key.code == sf::Keyboard::Down
     					)
     				{
-    					if(direction == event.key.code)
-    						direction = sf::Keyboard::Unknown;
+    					if(direction1 == event.key.code)
+    						direction1 = sf::Keyboard::Unknown;
+    				}
+    				if (event.key.code == sf::Keyboard::Q
+    					|| event.key.code == sf::Keyboard::D
+    					|| event.key.code == sf::Keyboard::Z
+    					|| event.key.code == sf::Keyboard::S
+    					)
+    				{
+    					if(direction2 == event.key.code)
+    						direction2 = sf::Keyboard::Unknown;
     				}
     			}
     		}
 
-    		switch(direction)
+    		switch(direction1)
     		{
     			case sf::Keyboard::Left:
     			player1.movePerso(-vitessePerso,0,&level1); 
@@ -122,16 +145,44 @@
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
     		}
+    		switch(direction2)
+    		{
+
+    			case sf::Keyboard::Q:
+    			player2.movePerso(-vitessePerso,0,&level1); 
+    			player2.setDirection(SPRITE_LEFT);
+    			player2.toggleAnimation(DIV_FREQ_ANIMATION);
+    			break;
+
+    			case sf::Keyboard::D:
+    			player2.movePerso(vitessePerso,0,&level1);
+    			player2.setDirection(SPRITE_RIGHT);
+    			player2.toggleAnimation(DIV_FREQ_ANIMATION);
+    			break;
+
+    			case sf::Keyboard::Z:			
+    			player2.movePerso(0,-vitessePerso,&level1);
+    			player2.setDirection(SPRITE_UP);
+    			player2.toggleAnimation(DIV_FREQ_ANIMATION);
+    			break;
+
+    			case sf::Keyboard::S:
+    			player2.movePerso(0,vitessePerso,&level1);
+    			player2.setDirection(SPRITE_DOWN);
+    			player2.toggleAnimation(DIV_FREQ_ANIMATION);
+    			break;
+    		}
 
     		player1.setTexturePerso();	
+    		player2.setTexturePerso();	
 
     		window.clear();
     		player1.getBackgroundActuel()->drawBackground(&window);
-    		//salleActuelle.dessinerLimitesBackground(&window);
+    		//player2.getBackgroundActuel()->drawBackground(&window);
+    		//player1.getBackgroundActuel()->dessinerLimitesBackground(&window);
 
     		window.draw(player1);
-
-
+    		window.draw(player2);
     		
     		//player1.dessinerHitbox(player1.getHitboxPerso(), &window);
     		
