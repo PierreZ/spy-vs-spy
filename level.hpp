@@ -41,22 +41,16 @@ class Level
     	Level();
     	~Level();
 
-    	Background ***getTabBackground();
+    	Background **getTabBackground();
 
-    	Background *getBackgroundActuel();
+    	Background ** fonction_allocation(int nb_col, int nb_lin);
 
-    	void setBackgroundActuel(Background *nouveauBackground);
-
-    	Vector2i getPositionLevel();
-
-    	void setPositionLevel(int x, int y);
 
     private:
 
-    	Background*** tabBackground;
+    	Background** tabBackground;
     	string* nomBackground_bases;
-    	Background *salleActuelle;
-    	Vector2i positionLevel;
+
 
 };
 

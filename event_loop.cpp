@@ -42,21 +42,19 @@
     	//int asa=-5;
     	//cout<<"result="<<5+asa<<endl;
 
-    	sf::RenderWindow window(sf::VideoMode(2*TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X, TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y), "Spy vs Spy");
-    	window.setFramerateLimit(80);
+    	sf::RenderWindow window(sf::VideoMode(TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X, TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y), "Spy vs Spy");
+    	window.setFramerateLimit(50);
     	window.setKeyRepeatEnabled (true); 	
  	
     	Level level1;
 
 
 		//avec classe parsonnage
-    	Personnage player1;
+    	Personnage player1(&level1);
     	player1.setTextureFromImage("ressources/link1.png");
 
 
     	
-
-
     	int x,y;
 
 
@@ -128,8 +126,7 @@
     		player1.setTexturePerso();	
 
     		window.clear();
-
-    		level1.getBackgroundActuel()->drawBackground(&window);
+    		player1.getBackgroundActuel()->drawBackground(&window);
     		//salleActuelle.dessinerLimitesBackground(&window);
 
     		window.draw(player1);
@@ -138,7 +135,7 @@
     		
     		//player1.dessinerHitbox(player1.getHitboxPerso(), &window);
     		
-    		//salleActuelle->dessinerHitbox(salleActuelle->getHitboxBackground(), &window);
+    		//player1.getBackgroundActuel()->dessinerHitbox(player1.getBackgroundActuel()->getHitboxBackground(), &window);
 
     		window.display();
     	}

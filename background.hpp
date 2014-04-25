@@ -36,8 +36,12 @@ class Background
 {
     public:
 
-        Background(string nomImage, bool porteHaut, bool porteBas, bool porteGauche, bool porteDoite);
+        Background();
         ~Background();
+
+        void loadImage(string nomImage);
+
+        void createBackground(bool porteHaut, bool porteBas, bool porteGauche, bool porteDoite);
 
         int** mappageBackground(bool porteHaut, bool porteBas, bool porteGauche, bool porteDoite);
 

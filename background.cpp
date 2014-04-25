@@ -19,19 +19,29 @@
 #include "background.hpp"
 #include "constantes.hpp"
 
-    Background::Background(string nomImage, bool porteHaut, bool porteBas, bool porteGauche, bool porteDoite)
+    Background::Background()
+    {
+
+    }
+
+    Background::~Background()
+    {
+       // freeTable(tabBackground);
+    }
+
+    void Background::loadImage(string nomImage)
     {
         texture_background =loadTexture2(nomImage,9,6);
+    }
+
+    void Background::createBackground(bool porteHaut, bool porteBas, bool porteGauche, bool porteDoite)
+    {
         tabBackground=mappageBackground(porteHaut, porteBas, porteGauche, porteDoite);
         spriteBackground = createSpritesBackground();
         hitboxBackground=createHitboxBackground();
         createLimitesBackground();
     }
 
-    Background::~Background()
-    {
-        freeTable(tabBackground);
-    }
 
     int** Background::mappageBackground(bool porteHaut, bool porteBas, bool porteGauche, bool porteDoite)
     {
@@ -503,6 +513,7 @@
 
     Texture** Background::loadTexture2(string name_image, int nb_col, int nb_lin)
     {
+
         Texture** texture = new Texture*[nb_col];
         for (int o = 0; o < nb_col; o++)
             texture[o] = new Texture[nb_lin];

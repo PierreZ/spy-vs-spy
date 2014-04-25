@@ -28,46 +28,46 @@
     	//Background *salle2=new Background("ressources/background_base2.png",1,0,0,0);
 
 
-    	positionLevel.x=0;
-    	positionLevel.y=0;
+
+    	string nomImage1="ressources/background_base1.png";   
+    	string nomImage2="ressources/background_base2.png";
+    	//Background *test = new Background();
+    	//test->loadImage(nomImage1);	    
+
+    	tabBackground=fonction_allocation(4,2);
+
+
+    	tabBackground[0][0].loadImage("ressources/background_base1.png");
+    	tabBackground[0][0].createBackground(0,1,0,1);
     	
+    	tabBackground[0][1].loadImage("ressources/background_base2.png");
+    	tabBackground[0][1].createBackground(1,0,0,1);
 
-    	tabBackground[0][0]=new Background("ressources/background_base1.png",0,1,0,0);
+    	tabBackground[1][0].loadImage("ressources/background_base1.png");
+    	tabBackground[1][0].createBackground(0,1,1,0);
+    	
+    	tabBackground[1][1].loadImage("ressources/background_base2.png");
+    	tabBackground[1][1].createBackground(1,0,1,0);
 
-    	cout<<"----------------------->test"<<endl;
-    	tabBackground[0][1]=new Background("ressources/background_base2.png",1,0,0,0);
-
-
-    	Background *salleActuelle=tabBackground[positionLevel.x][positionLevel.y];
-    }
+   }
 
     Level::~Level()
     {
 
     }
 
-    Background *** Level::getTabBackground()
+    Background ** Level::getTabBackground()
     {
     	return tabBackground;//return
     }
 
-    Background *Level::getBackgroundActuel()
-    {
-    	return salleActuelle;
-    }
 
-    void Level::setBackgroundActuel(Background *nouveauBackground)
-    {
-    	salleActuelle=nouveauBackground;
-    }
 
-    Vector2i Level::getPositionLevel()
+    Background ** Level::fonction_allocation(int nb_col, int nb_lin)
     {
-    	return positionLevel;
-    }
+    	Background** tab = new Background*[nb_col];
+    	for (int o = 0; o < nb_col; o++)
+    		tab[o] = new Background[nb_lin];
 
-    void Level::setPositionLevel(int x, int y)
-    {
-    	positionLevel.x=x;
-    	positionLevel.y=y;
-    }
+		return tab;//retour du pointeur sur l'espace alloué
+	}

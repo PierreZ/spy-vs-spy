@@ -23,7 +23,7 @@
 #define CONSTANTES_H
 
 // Constantes
-const int AGRANDISSEMENT=2;
+const int AGRANDISSEMENT=3;
 const int DIV_FREQ_ANIMATION=9;
 
 const int TUILE_W=16;
@@ -37,7 +37,7 @@ const int SPRITE_DOWN=1;
 const int SPRITE_LEFT=2;
 const int SPRITE_RIGHT=3;
 
-int const vitessePerso = 1*AGRANDISSEMENT;
+int const vitessePerso = 2*AGRANDISSEMENT;
 
 
 #endif // CONSTANTES_H

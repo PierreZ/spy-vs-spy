@@ -19,11 +19,17 @@
 #include "personnage.hpp"
 #include "constantes.hpp"
 
-    Personnage::Personnage()
+    Personnage::Personnage(Level *levelActuel)
     {
     	directionPerso = SPRITE_DOWN;
     	compteurAnimation=0;
     	varAnimation=0;
+
+
+    	positionLevel.x=0;
+    	positionLevel.y=0; 
+
+    	salleActuelle=(levelActuel->getTabBackground()[positionLevel.x][positionLevel.y]);
 
     }
 
@@ -161,12 +167,12 @@ void Personnage::movePerso(float x, float y, Level *levelActuel)
 		{   
 			for(d=0;d<NB_WINDOW_TUILES_X;d++)
 			{
-				rectSpriteBackground=(IntRect)levelActuel->getBackgroundActuel()->getSpriteBackground()[c][d].getGlobalBounds();
+				rectSpriteBackground=(IntRect)salleActuelle.getSpriteBackground()[c][d].getGlobalBounds();
 			//cout<<"rectSpriteBackground.x= "<<rectSpriteBackground.left<<"  rectSpriteBackground.y= "<<rectSpriteBackground.top<<"  rectSpriteBackground.x= "<<rectSpriteBackground.width<<"  rectSpriteBackground.y= "<<rectSpriteBackground.height<<endl;
 
 				if(rectSprite.intersects(rectSpriteBackground))
 				{
-					rectHitboxSpriteBackground=levelActuel->getBackgroundActuel()->getHitboxBackground()[c][d];
+					rectHitboxSpriteBackground=salleActuelle.getHitboxBackground()[c][d];
 					if((hitboxPersoTemp.intersects(rectHitboxSpriteBackground)))
 					{
 						possibilite=0;
@@ -191,27 +197,37 @@ void Personnage::movePerso(float x, float y, Level *levelActuel)
 		move(x,y);
 		bougerHitboxPerso((int)x,(int)y);
 		//cout<<"p.x= "<<hitboxPerso.left<<"  p.y= "<<hitboxPerso.top<<"  s.x= "<<hitboxPerso.width<<"  s.y= "<<hitboxPerso.height<<endl;
-		switch(testSortieSalle(levelActuel->getBackgroundActuel()))
+		//cout<<"x="<<positionLevel.x<<"  y="<<positionLevel.y<<endl;
+		switch(testSortieSalle())
 		{
 			case 1:
-			levelActuel->setPositionLevel(levelActuel->getPositionLevel().x,levelActuel->getPositionLevel().y+1);
+			setPositionLevel(positionLevel.x,positionLevel.y+1);
+			setBackgroundActuel(levelActuel->getTabBackground()[positionLevel.x][positionLevel.y]);
+
 			//levelActuel->setBackgroundActuel(levelActuel->getTabBackground());
-			movePerso(0,-levelActuel->getBackgroundActuel()->getLimitesBackground().height-getHitboxPerso().height,levelActuel);
+			move(0,-salleActuelle.getLimitesBackground().height-getHitboxPerso().height);
+			bougerHitboxPerso(0,-salleActuelle.getLimitesBackground().height-getHitboxPerso().height);
 			break;
 
 			case 0:
-			levelActuel->setPositionLevel(levelActuel->getPositionLevel().x,levelActuel->getPositionLevel().y-1);
-			movePerso(0,levelActuel->getBackgroundActuel()->getLimitesBackground().height+getHitboxPerso().height,levelActuel);
+			setPositionLevel(positionLevel.x,positionLevel.y-1);
+			setBackgroundActuel(levelActuel->getTabBackground()[positionLevel.x][positionLevel.y]);
+			move(0,salleActuelle.getLimitesBackground().height+getHitboxPerso().height);
+			bougerHitboxPerso(0,salleActuelle.getLimitesBackground().height+getHitboxPerso().height);
 			break;
 
 			case 2:
-			//salleActuelle=salle2;
-			movePerso(levelActuel->getBackgroundActuel()->getLimitesBackground().width+getHitboxPerso().width,0,levelActuel);
+			setPositionLevel(positionLevel.x-1,positionLevel.y);
+			setBackgroundActuel(levelActuel->getTabBackground()[positionLevel.x][positionLevel.y]);
+			move(salleActuelle.getLimitesBackground().width+getHitboxPerso().width,0);
+			bougerHitboxPerso(salleActuelle.getLimitesBackground().width+getHitboxPerso().width,0);
 			break;
 
 			case 3:
-			//salleActuelle=salle2;
-			movePerso(-levelActuel->getBackgroundActuel()->getLimitesBackground().width-getHitboxPerso().width,0,levelActuel);
+			setPositionLevel(positionLevel.x+1,positionLevel.y);
+			setBackgroundActuel(levelActuel->getTabBackground()[positionLevel.x][positionLevel.y]);
+			move(-salleActuelle.getLimitesBackground().width-getHitboxPerso().width,0);
+			bougerHitboxPerso(-salleActuelle.getLimitesBackground().width-getHitboxPerso().width,0);
 			break;
 
 			default:
@@ -242,10 +258,10 @@ void Personnage::afficherIntrect(IntRect rectangle)
 	cout<<"  rect.height= "<<rectangle.height<<endl;
 }
 
-int Personnage::testSortieSalle(Background *salle)
+int Personnage::testSortieSalle()
 {
 	IntRect resultIntesect;
-	hitboxPerso.intersects(salle->getLimitesBackground(), resultIntesect);
+	hitboxPerso.intersects(salleActuelle.getLimitesBackground(), resultIntesect);
     	//afficherIntrect(resultIntesect);
 
 	if(resultIntesect.width!=0 || resultIntesect.height!=0 )
@@ -254,18 +270,40 @@ int Personnage::testSortieSalle(Background *salle)
 	}
 	else
 	{
-		if(hitboxPerso.top<salle->getLimitesBackground().top)
+		if(hitboxPerso.top<salleActuelle.getLimitesBackground().top)
     			return 0; //haut
-    		else if(hitboxPerso.top>salle->getLimitesBackground().top+salle->getLimitesBackground().height)
+    		else if(hitboxPerso.top>salleActuelle.getLimitesBackground().top+salleActuelle.getLimitesBackground().height)
     			return 1;//bas
-    		else if(hitboxPerso.left<salle->getLimitesBackground().left)
+    		else if(hitboxPerso.left<salleActuelle.getLimitesBackground().left)
     			return 2;//gauche
-    		else if(hitboxPerso.left>salle->getLimitesBackground().left+salle->getLimitesBackground().width)
+    		else if(hitboxPerso.left>salleActuelle.getLimitesBackground().left+salleActuelle.getLimitesBackground().width)
     			return 3;//droite
     		else
     			return 4;
     	}
 
+    }
+
+
+    Background *Personnage::getBackgroundActuel()
+    {
+    	return &salleActuelle;
+    }
+
+    void Personnage::setBackgroundActuel(Background nouveauBackground)
+    {
+    	salleActuelle=nouveauBackground;
+    }
+
+    Vector2i Personnage::getPositionLevel()
+    {
+    	return positionLevel;
+    }
+
+    void Personnage::setPositionLevel(int x, int y)
+    {
+    	positionLevel.x=x;
+    	positionLevel.y=y;
     }
 
 
