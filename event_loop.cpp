@@ -53,7 +53,7 @@
         FenetreJoueur* fenetre1 = new FenetreJoueur;
 
         Transform * transformation2 = new Transform;
-        transformation2->translate(2*MARGE_GD+TAILLE_ECRAN_JOUEUR_X,MARGE_HB);
+        transformation2->translate(3*MARGE_GD+TAILLE_ECRAN_JOUEUR_X,MARGE_HB);
         RenderStates * RenderStatesTransfo2 = new RenderStates(*transformation2);
         FenetreJoueur* fenetre2 = new FenetreJoueur;
             
@@ -194,8 +194,8 @@
     		window.draw(player1);
     		window.draw(player2);*/
 
-            fenetre1->draw(&window,*RenderStatesTransfo1, &player1);
-            fenetre2->draw(&window,*RenderStatesTransfo2, &player2);
+            fenetre1->draw(&window,*RenderStatesTransfo1, &player1, &player2);
+            fenetre2->draw(&window,*RenderStatesTransfo2, &player2, &player1);
     		
     		//player1.dessinerHitbox(player1.getHitboxPerso(), &window);
     		

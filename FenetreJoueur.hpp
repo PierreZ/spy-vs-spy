@@ -43,7 +43,7 @@ class FenetreJoueur//: public sf::Drawable, public sf::Transformable
         ~FenetreJoueur();
 
         bool load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height);
-        void draw(RenderWindow *window, sf::RenderStates states, Personnage *player) const;
+        void draw(RenderWindow *window, sf::RenderStates states, Personnage *playerA, Personnage *playerB) const;
 
     private:
 

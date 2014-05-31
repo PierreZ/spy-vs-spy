@@ -67,7 +67,7 @@
     		return true;
     	}
 
-    	void FenetreJoueur::draw(RenderWindow *window, sf::RenderStates states, Personnage *player) const
+    	void FenetreJoueur::draw(RenderWindow *window, sf::RenderStates states, Personnage *playerA, Personnage *playerB) const
     	{
 
     		
@@ -77,9 +77,14 @@
     		{   
     			for(j=0;j<NB_WINDOW_TUILES_X;j++)
     			{
-    				window->draw(player->getBackgroundActuel()->getSpriteBackground()[i][j]/*;spriteBackground[i][j]*/, states);   
+    				window->draw(playerA->getBackgroundActuel()->getSpriteBackground()[i][j]/*;spriteBackground[i][j]*/, states);   
     			}
     		}
-    		window->draw(*player, states);
-
+    		window->draw(*playerA, states);
+    		//cout<<"---"<<endl;
+    		if (playerA->getPositionLevel() == playerB->getPositionLevel())
+    		{
+    			//cout<<"testé"<<endl;
+    			window->draw(*playerB, states);
+    		}
     	}
