@@ -1,12 +1,11 @@
-# un titre de premier niveau
-SPY VS SPY FOR ISEN !
+#SPY VS SPY FOR ISEN !
 
 It needs version 2.1 of the SFML.
 
 
-exemple De Makefile:
+####exemple De Makefile:
 
-
+```bash
 all: spy-vs-spy
 
 spy-vs-spy: event_loop.o FenetreJoueur.o personnage.o background.o level.o constantes.o 
@@ -37,3 +36,4 @@ clean :
 # en vue d'une reconstruction complète
 mrproper: clean
 	rm -rf spy-vs-spy
+```

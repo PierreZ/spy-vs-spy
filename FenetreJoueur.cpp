@@ -18,6 +18,15 @@
 
     #include "FenetreJoueur.hpp"
 
+    FenetreJoueur::FenetreJoueur()
+    {
+
+    }
+    FenetreJoueur::~FenetreJoueur()
+    {
+
+    }
+
     bool FenetreJoueur::load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height)
     {
         // on charge la texture du tileset
@@ -58,14 +67,19 @@
     		return true;
     	}
 
-    	void FenetreJoueur::draw(sf::RenderTarget& target, sf::RenderStates states) const
+    	void FenetreJoueur::draw(RenderWindow *window, sf::RenderStates states, Personnage *player) const
     	{
-        // on applique la transformation
-    		states.transform *= getTransform();
 
-        // on applique la texture du tileset
-    		states.texture = &m_tileset;
+    		
 
-        // et on dessine enfin le tableau de vertex
-    		target.draw(m_vertices, states);
+    		int i,j;
+    		for(i=0;i<NB_WINDOW_TUILES_Y;i++)
+    		{   
+    			for(j=0;j<NB_WINDOW_TUILES_X;j++)
+    			{
+    				window->draw(player->getBackgroundActuel()->getSpriteBackground()[i][j]/*;spriteBackground[i][j]*/, states);   
+    			}
+    		}
+    		window->draw(*player, states);
+
     	}

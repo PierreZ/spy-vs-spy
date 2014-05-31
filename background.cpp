@@ -481,7 +481,7 @@
         return background;
     }
 
-    void Background::drawBackground(RenderWindow *window)
+    void Background::drawBackground(RenderWindow *window)//remplacée par fenetre joueur draw
     {
         int i,j;
         for(i=0;i<NB_WINDOW_TUILES_Y;i++)

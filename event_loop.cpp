@@ -32,7 +32,7 @@
 #include "background.hpp"
 #include "level.hpp"
 #include "constantes.hpp"
-
+#include "FenetreJoueur.hpp"
 
 
 
@@ -45,6 +45,19 @@
     	window.setKeyRepeatEnabled (true); 	
 
     	Level level1;
+
+
+        Transform * transformation1 = new Transform;
+        transformation1->translate(MARGE_GD,MARGE_HB);
+        RenderStates * RenderStatesTransfo1 = new RenderStates(*transformation1);
+        FenetreJoueur* fenetre1 = new FenetreJoueur;
+
+        Transform * transformation2 = new Transform;
+        transformation2->translate(2*MARGE_GD+TAILLE_ECRAN_JOUEUR_X,MARGE_HB);
+        RenderStates * RenderStatesTransfo2 = new RenderStates(*transformation2);
+        FenetreJoueur* fenetre2 = new FenetreJoueur;
+            
+
 
 
 		//avec classe parsonnage
@@ -174,12 +187,15 @@
 
     		window.clear();
 
-    		player1.getBackgroundActuel()->drawBackground(&window);
+    		/*player1.getBackgroundActuel()->drawBackground(&window);
     		player2.getBackgroundActuel()->drawBackground(&window);
     		//player1.getBackgroundActuel()->dessinerLimitesBackground(&window);
 
     		window.draw(player1);
-    		window.draw(player2);
+    		window.draw(player2);*/
+
+            fenetre1->draw(&window,*RenderStatesTransfo1, &player1);
+            fenetre2->draw(&window,*RenderStatesTransfo2, &player2);
     		
     		//player1.dessinerHitbox(player1.getHitboxPerso(), &window);
     		
@@ -187,6 +203,15 @@
 
     		window.display();
     	}
+
+        delete(RenderStatesTransfo1);
+        delete(transformation1);
+        delete(fenetre1);
+
+        delete(RenderStatesTransfo2);
+        delete(transformation2);
+        delete(fenetre2);
+
 
     	//delete &salle1; probleme avec le destructeur --> demander à Pierre
     	//delete &player1;

@@ -21,26 +21,33 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+//#include <RenderStates.hpp>
+//#include <Transform.hpp>
 #include <iostream>
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "constantes.hpp"
+#include "personnage.hpp"
+
 
 
     using namespace std;
     using namespace sf;
 
-class FenetreJoueur: public sf::Drawable, public sf::Transformable
+class FenetreJoueur//: public sf::Drawable, public sf::Transformable
 {
     public:
+        FenetreJoueur();
+        ~FenetreJoueur();
 
         bool load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height);
+        void draw(RenderWindow *window, sf::RenderStates states, Personnage *player) const;
 
     private:
 
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+        
 
         sf::VertexArray m_vertices;
         sf::Texture m_tileset;
