@@ -6,4 +6,6 @@ personnage.o
 background.o
 level.o
 constantes.o
+FenetreJoueur.o
+
 

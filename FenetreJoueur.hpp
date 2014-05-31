@@ -15,34 +15,36 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+#ifndef FENETREJOUEUR_H
+#define FENETREJOUEUR_H
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <iostream>
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "constantes.hpp"
 
 
-#ifndef CONSTANTES_H
-#define CONSTANTES_H
+    using namespace std;
+    using namespace sf;
 
-// Constantes
-const int AGRANDISSEMENT=2;
-const int DIV_FREQ_ANIMATION=6;
+class FenetreJoueur: public sf::Drawable, public sf::Transformable
+{
+    public:
 
-const int TUILE_W=16;
-const int TUILE_H=24;
+        bool load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height);
 
-const int NB_WINDOW_TUILES_X=16;
-const int NB_WINDOW_TUILES_Y=8;
+    private:
 
-const int SPRITE_UP=0;
-const int SPRITE_DOWN=1;
-const int SPRITE_LEFT=2;
-const int SPRITE_RIGHT=3;
+        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-int const vitessePerso = 2*AGRANDISSEMENT;
+        sf::VertexArray m_vertices;
+        sf::Texture m_tileset;
 
-const int TAILLE_ECRAN_JOUEUR_X = TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X;
-const int TAILLE_ECRAN_JOUEUR_Y = TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y;
-const int MARGE_HB = 10*AGRANDISSEMENT;//haut et bas
-const int MARGE_GD = 10*AGRANDISSEMENT;//gauche et droite
+};
 
-
-#endif // CONSTANTES_H
+#endif //FENETREJOUEUR_H

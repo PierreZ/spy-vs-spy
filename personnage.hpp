@@ -39,7 +39,7 @@ class Personnage: public Sprite
 {
     public:
 
-        Personnage(Level *levelActuel);
+        Personnage(Level *levelActuel, int numero);
         ~Personnage();
 
         void setTextureFromImage(string nomAtlas);
@@ -84,6 +84,8 @@ class Personnage: public Sprite
 
         Background salleActuelle;
         Vector2i positionLevel;
+
+        int numero_joueur;
 };
 
 

@@ -19,7 +19,7 @@
 #include "personnage.hpp"
 #include "constantes.hpp"
 
-    Personnage::Personnage(Level *levelActuel)
+    Personnage::Personnage(Level *levelActuel, int numero)
     {
     	directionPerso = SPRITE_DOWN;
     	compteurAnimation=0;
@@ -31,6 +31,7 @@
 
     	salleActuelle=(levelActuel->getTabBackground()[positionLevel.x][positionLevel.y]);
 
+    	numero_joueur=numero;
     }
 
     Personnage::~Personnage()
@@ -118,9 +119,9 @@ void Personnage::setDirection(int sprite_direction)
 IntRect Personnage::createHitboxPerso()
 {
 	// Define another rectangle, located at (4, 2) with a size of 18x10
-	int px=getPosition().x+5;
+	int px=getPosition().x+6;
 	int py=getPosition().y;
-	int sx=AGRANDISSEMENT*texturePerso[directionPerso][varAnimation].getSize().x-10;
+	int sx=AGRANDISSEMENT*texturePerso[directionPerso][varAnimation].getSize().x-11;
 	int sy=AGRANDISSEMENT*texturePerso[directionPerso][varAnimation].getSize().y;
 	//cout<<"  px= "<<px<<";  py= "<<py<<";  sx= "<< sx<< ";  sy= "<<sy<<endl;
 	Vector2i position(px, (py+sy-sy/3));

@@ -39,10 +39,7 @@
     int main()
     {
 
-    	//int asa=-5;
-    	//cout<<"result="<<5+asa<<endl;
-
-    	sf::RenderWindow window(sf::VideoMode(2*TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X, TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y), "Spy vs Spy");
+    	sf::RenderWindow window(sf::VideoMode(2*(2*MARGE_GD+TAILLE_ECRAN_JOUEUR_X), 2*MARGE_HB+TAILLE_ECRAN_JOUEUR_Y), "Spy vs Spy");
     	//window.setPosition (sf::Vector2i(200,200));
     	window.setFramerateLimit(50);
     	window.setKeyRepeatEnabled (true); 	
@@ -51,13 +48,11 @@
 
 
 		//avec classe parsonnage
-    	Personnage player1(&level1);
+    	Personnage player1(&level1,0);
     	player1.setTextureFromImage("ressources/link1.png");
 
-    	Personnage player2(&level1);
+    	Personnage player2(&level1,1);
     	player2.setTextureFromImage("ressources/player1.png");
-
-
 
 
     	sf::Keyboard::Key direction1;
@@ -176,9 +171,11 @@
     		player1.setTexturePerso();	
     		player2.setTexturePerso();	
 
+
     		window.clear();
+
     		player1.getBackgroundActuel()->drawBackground(&window);
-    		//player2.getBackgroundActuel()->drawBackground(&window);
+    		player2.getBackgroundActuel()->drawBackground(&window);
     		//player1.getBackgroundActuel()->dessinerLimitesBackground(&window);
 
     		window.draw(player1);
