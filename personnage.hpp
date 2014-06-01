@@ -56,7 +56,7 @@ class Personnage: public Sprite
 
         IntRect createHitboxPerso();
 
-        void movePerso(float x, float y, Level *levelActuel);
+        void movePerso(float x, float y, Level *levelActuel, Personnage *playerB);
 
         void dessinerHitbox(IntRect hitbox,RenderWindow *window);
 

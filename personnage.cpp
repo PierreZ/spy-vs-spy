@@ -47,7 +47,7 @@
     	varAnimation=0;
     	setTexture(texturePerso[0][varAnimation]);
     	setScale(AGRANDISSEMENT,AGRANDISSEMENT);
-    	setPosition(100,100);
+    	setPosition(100+100*numero_joueur,100);
     	hitboxPerso=createHitboxPerso();
 		//cout<<"---------------->p.x= "<<hitboxPerso.left;
 		//cout<<"  p.y= "<<hitboxPerso.top;
@@ -140,7 +140,7 @@ void Personnage::bougerHitboxPerso(int x, int y)
 	hitboxPerso.left+=x;
 }
 
-void Personnage::movePerso(float x, float y, Level *levelActuel)
+void Personnage::movePerso(float x, float y, Level *levelActuel, Personnage *playerB)
 {
 
 	IntRect rectSprite;
@@ -192,6 +192,14 @@ void Personnage::movePerso(float x, float y, Level *levelActuel)
 			}
 		}
 		done=true;
+	}
+	IntRect result;
+	hitboxPersoTemp.intersects(salleActuelle.getLimitesBackground(), result);
+	if(positionLevel == playerB->getPositionLevel() 
+		&& hitboxPersoTemp.intersects(playerB->getHitboxPerso())///--------------------------bug en entrée de salle
+		&& result != hitboxPerso)
+	{
+		possibilite=0;
 	}
 	if(possibilite!=0)
 	{		

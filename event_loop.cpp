@@ -130,25 +130,25 @@
     		switch(direction1)
     		{
     			case sf::Keyboard::Left:
-    			player1.movePerso(-vitessePerso,0,&level1); 
+    			player1.movePerso(-vitessePerso,0,&level1, &player2); 
     			player1.setDirection(SPRITE_LEFT);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Right:
-    			player1.movePerso(vitessePerso,0,&level1);
+    			player1.movePerso(vitessePerso,0,&level1, &player2);
     			player1.setDirection(SPRITE_RIGHT);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Up:			
-    			player1.movePerso(0,-vitessePerso,&level1);
+    			player1.movePerso(0,-vitessePerso,&level1, &player2);
     			player1.setDirection(SPRITE_UP);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Down:
-    			player1.movePerso(0,vitessePerso,&level1);
+    			player1.movePerso(0,vitessePerso,&level1, &player2);
     			player1.setDirection(SPRITE_DOWN);
     			player1.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
@@ -157,25 +157,25 @@
     		{
 
     			case sf::Keyboard::Q:
-    			player2.movePerso(-vitessePerso,0,&level1); 
+    			player2.movePerso(-vitessePerso,0,&level1, &player1); 
     			player2.setDirection(SPRITE_LEFT);
     			player2.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::D:
-    			player2.movePerso(vitessePerso,0,&level1);
+    			player2.movePerso(vitessePerso,0,&level1, &player1);
     			player2.setDirection(SPRITE_RIGHT);
     			player2.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::Z:			
-    			player2.movePerso(0,-vitessePerso,&level1);
+    			player2.movePerso(0,-vitessePerso,&level1, &player1);
     			player2.setDirection(SPRITE_UP);
     			player2.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
 
     			case sf::Keyboard::S:
-    			player2.movePerso(0,vitessePerso,&level1);
+    			player2.movePerso(0,vitessePerso,&level1, &player1);
     			player2.setDirection(SPRITE_DOWN);
     			player2.toggleAnimation(DIV_FREQ_ANIMATION);
     			break;
@@ -189,7 +189,7 @@
 
     		/*player1.getBackgroundActuel()->drawBackground(&window);
     		player2.getBackgroundActuel()->drawBackground(&window);
-    		//player1.getBackgroundActuel()->dessinerLimitesBackground(&window);
+    		player1.getBackgroundActuel()->dessinerLimitesBackground(&window);
 
     		window.draw(player1);
     		window.draw(player2);*/

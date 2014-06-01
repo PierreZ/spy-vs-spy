@@ -80,11 +80,24 @@
     				window->draw(playerA->getBackgroundActuel()->getSpriteBackground()[i][j]/*;spriteBackground[i][j]*/, states);   
     			}
     		}
-    		window->draw(*playerA, states);
-    		//cout<<"---"<<endl;
+    		
+
     		if (playerA->getPositionLevel() == playerB->getPositionLevel())
     		{
     			//cout<<"testé"<<endl;
-    			window->draw(*playerB, states);
+    			if(playerA->getHitboxPerso().top<=playerB->getHitboxPerso().top)
+    			{
+    				window->draw(*playerA, states);
+    				window->draw(*playerB, states);
+    			}
+    			else
+    			{
+    				window->draw(*playerB, states);
+    				window->draw(*playerA, states);
+    			}    			
+    		}
+    		else
+    		{
+    			window->draw(*playerA, states);
     		}
     	}
