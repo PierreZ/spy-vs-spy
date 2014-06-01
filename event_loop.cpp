@@ -64,10 +64,10 @@
 
 		//avec classe parsonnage
         Personnage player1(&level1,0);
-        player1.setTextureFromImage("ressources/link1.png");
+        player1.setTextureFromImage("ressources/image/link1.png");
 
         Personnage player2(&level1,1);
-        player2.setTextureFromImage("ressources/player1.png");
+        player2.setTextureFromImage("ressources/image/player1.png");
 
 
         sf::Keyboard::Key direction1;
@@ -77,7 +77,7 @@
 
         //partie musicale 
         sf::SoundBuffer buffer;
-        if (!buffer.loadFromFile("music/Link_to_the_Past_-_Dark_World.ogg"))
+        if (!buffer.loadFromFile("ressources/music/Link_to_the_Past_-_Dark_World.ogg"))
             return -1;
 
         sf::Sound sound;
@@ -87,7 +87,7 @@
 
          // Create a graphical text to display
         sf::Font font;
-        if (!font.loadFromFile("ressources/Volter__28Goldfish_29.ttf"))
+        if (!font.loadFromFile("ressources/font/Volter__28Goldfish_29.ttf"))
         {
             return EXIT_FAILURE;
         }

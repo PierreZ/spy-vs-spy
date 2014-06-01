@@ -29,8 +29,8 @@
 
 
 
-    	string nomImage1="ressources/background_base1.png";   
-    	string nomImage2="ressources/background_base2.png";
+    	string nomImage1="ressources/image/background_base1.png";   
+    	string nomImage2="ressources/image/background_base2.png";
     	//Background *test = new Background();
     	//test->loadImage(nomImage1);	    
 
