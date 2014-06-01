@@ -18,6 +18,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+
 #include <iostream>
 
 #include <stdlib.h>
@@ -56,136 +58,156 @@
         transformation2->translate(3*MARGE_GD+TAILLE_ECRAN_JOUEUR_X,MARGE_HB);
         RenderStates * RenderStatesTransfo2 = new RenderStates(*transformation2);
         FenetreJoueur* fenetre2 = new FenetreJoueur;
-            
+
 
 
 
 		//avec classe parsonnage
-    	Personnage player1(&level1,0);
-    	player1.setTextureFromImage("ressources/link1.png");
+        Personnage player1(&level1,0);
+        player1.setTextureFromImage("ressources/link1.png");
 
-    	Personnage player2(&level1,1);
-    	player2.setTextureFromImage("ressources/player1.png");
-
-
-    	sf::Keyboard::Key direction1;
-    	sf::Keyboard::Key direction2;
+        Personnage player2(&level1,1);
+        player2.setTextureFromImage("ressources/player1.png");
 
 
-    	while (window.isOpen())
-    	{
-
-    		sf::Event event;
-    		while (window.pollEvent(event))
-    		{
-    			if (event.type == sf::Event::Closed)
-    				window.close();
-
-    			if (event.type == sf::Event::KeyPressed )
-    			{
-    				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-    					window.close();
-
-    				if (event.key.code == sf::Keyboard::Left
-    					|| event.key.code == sf::Keyboard::Right
-    					|| event.key.code == sf::Keyboard::Up
-    					|| event.key.code == sf::Keyboard::Down
-    					)
-    				{
-    					direction1 = event.key.code;
-    				}
-    				if (event.key.code == sf::Keyboard::Q
-    					|| event.key.code == sf::Keyboard::D
-    					|| event.key.code == sf::Keyboard::Z
-    					|| event.key.code == sf::Keyboard::S
-    					)
-    				{
-    					direction2 = event.key.code;
-    				}
+        sf::Keyboard::Key direction1;
+        sf::Keyboard::Key direction2;
 
 
-    			}
-    			else if(event.type == sf::Event::KeyReleased){
-    				if (event.key.code == sf::Keyboard::Left
-    					|| event.key.code == sf::Keyboard::Right
-    					|| event.key.code == sf::Keyboard::Up
-    					|| event.key.code == sf::Keyboard::Down
-    					)
-    				{
-    					if(direction1 == event.key.code)
-    						direction1 = sf::Keyboard::Unknown;
-    				}
-    				if (event.key.code == sf::Keyboard::Q
-    					|| event.key.code == sf::Keyboard::D
-    					|| event.key.code == sf::Keyboard::Z
-    					|| event.key.code == sf::Keyboard::S
-    					)
-    				{
-    					if(direction2 == event.key.code)
-    						direction2 = sf::Keyboard::Unknown;
-    				}
-    			}
-    		}
 
-    		switch(direction1)
-    		{
-    			case sf::Keyboard::Left:
-    			player1.movePerso(-vitessePerso,0,&level1, &player2); 
-    			player1.setDirection(SPRITE_LEFT);
-    			player1.toggleAnimation(DIV_FREQ_ANIMATION);
-    			break;
+        //partie musicale 
+        sf::SoundBuffer buffer;
+        if (!buffer.loadFromFile("music/Link_to_the_Past_-_Dark_World.ogg"))
+            return -1;
 
-    			case sf::Keyboard::Right:
-    			player1.movePerso(vitessePerso,0,&level1, &player2);
-    			player1.setDirection(SPRITE_RIGHT);
-    			player1.toggleAnimation(DIV_FREQ_ANIMATION);
-    			break;
+        sf::Sound sound;
+        sound.setBuffer(buffer);
+        sound.play();
+        sound.setLoop(true);
 
-    			case sf::Keyboard::Up:			
-    			player1.movePerso(0,-vitessePerso,&level1, &player2);
-    			player1.setDirection(SPRITE_UP);
-    			player1.toggleAnimation(DIV_FREQ_ANIMATION);
-    			break;
-
-    			case sf::Keyboard::Down:
-    			player1.movePerso(0,vitessePerso,&level1, &player2);
-    			player1.setDirection(SPRITE_DOWN);
-    			player1.toggleAnimation(DIV_FREQ_ANIMATION);
-    			break;
-    		}
-    		switch(direction2)
-    		{
-
-    			case sf::Keyboard::Q:
-    			player2.movePerso(-vitessePerso,0,&level1, &player1); 
-    			player2.setDirection(SPRITE_LEFT);
-    			player2.toggleAnimation(DIV_FREQ_ANIMATION);
-    			break;
-
-    			case sf::Keyboard::D:
-    			player2.movePerso(vitessePerso,0,&level1, &player1);
-    			player2.setDirection(SPRITE_RIGHT);
-    			player2.toggleAnimation(DIV_FREQ_ANIMATION);
-    			break;
-
-    			case sf::Keyboard::Z:			
-    			player2.movePerso(0,-vitessePerso,&level1, &player1);
-    			player2.setDirection(SPRITE_UP);
-    			player2.toggleAnimation(DIV_FREQ_ANIMATION);
-    			break;
-
-    			case sf::Keyboard::S:
-    			player2.movePerso(0,vitessePerso,&level1, &player1);
-    			player2.setDirection(SPRITE_DOWN);
-    			player2.toggleAnimation(DIV_FREQ_ANIMATION);
-    			break;
-    		}
-
-    		player1.setTexturePerso();	
-    		player2.setTexturePerso();	
+         // Create a graphical text to display
+        sf::Font font;
+        if (!font.loadFromFile("ressources/Volter__28Goldfish_29.ttf"))
+        {
+            return EXIT_FAILURE;
+        }
+        sf::Text text("Spy-vs-Spy", font, 15);
 
 
-    		window.clear();
+        while (window.isOpen())
+        {
+
+          sf::Event event;
+          while (window.pollEvent(event))
+          {
+             if (event.type == sf::Event::Closed)
+                window.close();
+
+            if (event.type == sf::Event::KeyPressed )
+            {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                   window.close();
+
+               if (event.key.code == sf::Keyboard::Left
+                   || event.key.code == sf::Keyboard::Right
+                   || event.key.code == sf::Keyboard::Up
+                   || event.key.code == sf::Keyboard::Down
+                   )
+               {
+                   direction1 = event.key.code;
+               }
+               if (event.key.code == sf::Keyboard::Q
+                   || event.key.code == sf::Keyboard::D
+                   || event.key.code == sf::Keyboard::Z
+                   || event.key.code == sf::Keyboard::S
+                   )
+               {
+                   direction2 = event.key.code;
+               }
+
+
+           }
+           else if(event.type == sf::Event::KeyReleased){
+            if (event.key.code == sf::Keyboard::Left
+               || event.key.code == sf::Keyboard::Right
+               || event.key.code == sf::Keyboard::Up
+               || event.key.code == sf::Keyboard::Down
+               )
+            {
+               if(direction1 == event.key.code)
+                  direction1 = sf::Keyboard::Unknown;
+          }
+          if (event.key.code == sf::Keyboard::Q
+           || event.key.code == sf::Keyboard::D
+           || event.key.code == sf::Keyboard::Z
+           || event.key.code == sf::Keyboard::S
+           )
+          {
+           if(direction2 == event.key.code)
+              direction2 = sf::Keyboard::Unknown;
+      }
+  }
+}
+
+switch(direction1)
+{
+ case sf::Keyboard::Left:
+ player1.movePerso(-vitessePerso,0,&level1, &player2); 
+ player1.setDirection(SPRITE_LEFT);
+ player1.toggleAnimation(DIV_FREQ_ANIMATION);
+ break;
+
+ case sf::Keyboard::Right:
+ player1.movePerso(vitessePerso,0,&level1, &player2);
+ player1.setDirection(SPRITE_RIGHT);
+ player1.toggleAnimation(DIV_FREQ_ANIMATION);
+ break;
+
+ case sf::Keyboard::Up:			
+ player1.movePerso(0,-vitessePerso,&level1, &player2);
+ player1.setDirection(SPRITE_UP);
+ player1.toggleAnimation(DIV_FREQ_ANIMATION);
+ break;
+
+ case sf::Keyboard::Down:
+ player1.movePerso(0,vitessePerso,&level1, &player2);
+ player1.setDirection(SPRITE_DOWN);
+ player1.toggleAnimation(DIV_FREQ_ANIMATION);
+ break;
+}
+switch(direction2)
+{
+
+ case sf::Keyboard::Q:
+ player2.movePerso(-vitessePerso,0,&level1, &player1); 
+ player2.setDirection(SPRITE_LEFT);
+ player2.toggleAnimation(DIV_FREQ_ANIMATION);
+ break;
+
+ case sf::Keyboard::D:
+ player2.movePerso(vitessePerso,0,&level1, &player1);
+ player2.setDirection(SPRITE_RIGHT);
+ player2.toggleAnimation(DIV_FREQ_ANIMATION);
+ break;
+
+ case sf::Keyboard::Z:			
+ player2.movePerso(0,-vitessePerso,&level1, &player1);
+ player2.setDirection(SPRITE_UP);
+ player2.toggleAnimation(DIV_FREQ_ANIMATION);
+ break;
+
+ case sf::Keyboard::S:
+ player2.movePerso(0,vitessePerso,&level1, &player1);
+ player2.setDirection(SPRITE_DOWN);
+ player2.toggleAnimation(DIV_FREQ_ANIMATION);
+ break;
+}
+
+player1.setTexturePerso();	
+player2.setTexturePerso();	
+
+
+window.clear();
 
     		/*player1.getBackgroundActuel()->drawBackground(&window);
     		player2.getBackgroundActuel()->drawBackground(&window);
@@ -196,13 +218,17 @@
 
             fenetre1->draw(&window,*RenderStatesTransfo1, &player1, &player2);
             fenetre2->draw(&window,*RenderStatesTransfo2, &player2, &player1);
-    		
+
+
+            // Draw the string
+            window.draw(text);
+
     		//player1.dessinerHitbox(player1.getHitboxPerso(), &window);
-    		
+
     		//player1.getBackgroundActuel()->dessinerHitbox(player1.getBackgroundActuel()->getHitboxBackground(), &window);
 
-    		window.display();
-    	}
+            window.display();
+        }
 
         delete(RenderStatesTransfo1);
         delete(transformation1);
@@ -215,7 +241,7 @@
 
     	//delete &salle1; probleme avec le destructeur --> demander à Pierre
     	//delete &player1;
-    	return 0;
+        return 0;
     }
 
 

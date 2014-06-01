@@ -195,9 +195,10 @@ void Personnage::movePerso(float x, float y, Level *levelActuel, Personnage *pla
 	}
 	IntRect result;
 	hitboxPersoTemp.intersects(salleActuelle.getLimitesBackground(), result);
+	//cout<<"result"<<(result.height)*(result.width)<<" hitbox:"<<(hitboxPersoTemp.height)*(hitboxPersoTemp.width)<<endl;
 	if(positionLevel == playerB->getPositionLevel() 
 		&& hitboxPersoTemp.intersects(playerB->getHitboxPerso())///--------------------------bug en entrée de salle
-		&& result != hitboxPerso)
+		&& (result.height)*(result.width) >= (hitboxPersoTemp.height)*(hitboxPersoTemp.width)-100)
 	{
 		possibilite=0;
 	}

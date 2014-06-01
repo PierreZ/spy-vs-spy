@@ -1,4 +1,4 @@
-#SPY VS SPY FOR ISEN !
+###SPY VS SPY FOR ISEN !
 
 It needs version 2.1 of the SFML.
 
@@ -6,10 +6,12 @@ It needs version 2.1 of the SFML.
 ####exemple De Makefile:
 
 ```bash
+CFLAGS = -W -Wall -g
+
 all: spy-vs-spy
 
 spy-vs-spy: event_loop.o FenetreJoueur.o personnage.o background.o level.o constantes.o 
-	g++ event_loop.o FenetreJoueur.o personnage.o background.o level.o constantes.o -o spy-vs-spy -L/usr/local/lib -lsfml-graphics -lsfml-window -lsfml-system
+	g++ event_loop.o FenetreJoueur.o personnage.o background.o level.o constantes.o -o spy-vs-spy -L/usr/local/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 event_loop.o: event_loop.cpp
 	g++ -c event_loop.cpp -L/usr/local/include
@@ -36,4 +38,5 @@ clean :
 # en vue d'une reconstruction complète
 mrproper: clean
 	rm -rf spy-vs-spy
+
 ```
