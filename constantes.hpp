@@ -23,12 +23,14 @@
 #define CONSTANTES_H
 
 // Constantes
-const int AGRANDISSEMENT=2;
-const int DIV_FREQ_ANIMATION=6;
+const float AGRANDISSEMENT=1.80;
+const int DIV_FREQ_ANIMATION=8;
 
+//taille d'une tuile
 const int TUILE_W=16;
 const int TUILE_H=24;
 
+//nb de tuile en largeur et en hauteur
 const int NB_WINDOW_TUILES_X=16;
 const int NB_WINDOW_TUILES_Y=8;
 
@@ -43,6 +45,8 @@ const int TAILLE_ECRAN_JOUEUR_X = TUILE_W*AGRANDISSEMENT*NB_WINDOW_TUILES_X;
 const int TAILLE_ECRAN_JOUEUR_Y = TUILE_H*AGRANDISSEMENT*NB_WINDOW_TUILES_Y;
 const int MARGE_HB = 10*AGRANDISSEMENT;//haut et bas
 const int MARGE_GD = 10*AGRANDISSEMENT;//gauche et droite
+
+const int PANEL_INFO_JOUEUR = 150*AGRANDISSEMENT;
 
 
 #endif // CONSTANTES_H

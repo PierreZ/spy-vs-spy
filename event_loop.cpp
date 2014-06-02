@@ -41,7 +41,7 @@
     int main()
     {
 
-    	sf::RenderWindow window(sf::VideoMode(2*(2*MARGE_GD+TAILLE_ECRAN_JOUEUR_X), 2*MARGE_HB+TAILLE_ECRAN_JOUEUR_Y), "Spy vs Spy");
+    	sf::RenderWindow window(sf::VideoMode(2*(2*MARGE_GD+TAILLE_ECRAN_JOUEUR_X), 2*MARGE_HB+TAILLE_ECRAN_JOUEUR_Y+PANEL_INFO_JOUEUR), "Spy vs Spy");
     	//window.setPosition (sf::Vector2i(200,200));
     	window.setFramerateLimit(50);
     	window.setKeyRepeatEnabled (true); 	
@@ -91,7 +91,11 @@
         {
             return EXIT_FAILURE;
         }
-        sf::Text text("Spy-vs-Spy", font, 15);
+        sf::Text Joueur1("Joueur 1", font, 9*AGRANDISSEMENT);
+        Joueur1.setPosition((2*MARGE_GD+TAILLE_ECRAN_JOUEUR_X)/2-25*AGRANDISSEMENT,2*MARGE_HB+TAILLE_ECRAN_JOUEUR_Y);
+        sf::Text Joueur2("Joueur 2", font, 9*AGRANDISSEMENT);
+        Joueur2.setPosition(2*MARGE_GD+2*TAILLE_ECRAN_JOUEUR_X-TAILLE_ECRAN_JOUEUR_X/2-15*AGRANDISSEMENT,2*MARGE_HB+TAILLE_ECRAN_JOUEUR_Y);
+
 
 
         while (window.isOpen())
@@ -114,7 +118,7 @@
                    || event.key.code == sf::Keyboard::Down
                    )
                {
-                   direction1 = event.key.code;
+                   direction2 = event.key.code;
                }
                if (event.key.code == sf::Keyboard::Q
                    || event.key.code == sf::Keyboard::D
@@ -122,7 +126,7 @@
                    || event.key.code == sf::Keyboard::S
                    )
                {
-                   direction2 = event.key.code;
+                   direction1 = event.key.code;
                }
 
 
@@ -134,8 +138,8 @@
                || event.key.code == sf::Keyboard::Down
                )
             {
-               if(direction1 == event.key.code)
-                  direction1 = sf::Keyboard::Unknown;
+               if(direction2 == event.key.code)
+                  direction2 = sf::Keyboard::Unknown;
           }
           if (event.key.code == sf::Keyboard::Q
            || event.key.code == sf::Keyboard::D
@@ -143,33 +147,33 @@
            || event.key.code == sf::Keyboard::S
            )
           {
-           if(direction2 == event.key.code)
-              direction2 = sf::Keyboard::Unknown;
+           if(direction1 == event.key.code)
+              direction1 = sf::Keyboard::Unknown;
       }
   }
 }
 
 switch(direction1)
 {
- case sf::Keyboard::Left:
+ case sf::Keyboard::Q:
  player1.movePerso(-vitessePerso,0,&level1, &player2); 
  player1.setDirection(SPRITE_LEFT);
  player1.toggleAnimation(DIV_FREQ_ANIMATION);
  break;
 
- case sf::Keyboard::Right:
+ case sf::Keyboard::D:
  player1.movePerso(vitessePerso,0,&level1, &player2);
  player1.setDirection(SPRITE_RIGHT);
  player1.toggleAnimation(DIV_FREQ_ANIMATION);
  break;
 
- case sf::Keyboard::Up:			
+ case sf::Keyboard::Z:			
  player1.movePerso(0,-vitessePerso,&level1, &player2);
  player1.setDirection(SPRITE_UP);
  player1.toggleAnimation(DIV_FREQ_ANIMATION);
  break;
 
- case sf::Keyboard::Down:
+ case sf::Keyboard::S:
  player1.movePerso(0,vitessePerso,&level1, &player2);
  player1.setDirection(SPRITE_DOWN);
  player1.toggleAnimation(DIV_FREQ_ANIMATION);
@@ -178,25 +182,25 @@ switch(direction1)
 switch(direction2)
 {
 
- case sf::Keyboard::Q:
+ case sf::Keyboard::Left:
  player2.movePerso(-vitessePerso,0,&level1, &player1); 
  player2.setDirection(SPRITE_LEFT);
  player2.toggleAnimation(DIV_FREQ_ANIMATION);
  break;
 
- case sf::Keyboard::D:
+ case sf::Keyboard::Right:
  player2.movePerso(vitessePerso,0,&level1, &player1);
  player2.setDirection(SPRITE_RIGHT);
  player2.toggleAnimation(DIV_FREQ_ANIMATION);
  break;
 
- case sf::Keyboard::Z:			
+ case sf::Keyboard::Up:			
  player2.movePerso(0,-vitessePerso,&level1, &player1);
  player2.setDirection(SPRITE_UP);
  player2.toggleAnimation(DIV_FREQ_ANIMATION);
  break;
 
- case sf::Keyboard::S:
+ case sf::Keyboard::Down:
  player2.movePerso(0,vitessePerso,&level1, &player1);
  player2.setDirection(SPRITE_DOWN);
  player2.toggleAnimation(DIV_FREQ_ANIMATION);
@@ -221,7 +225,8 @@ window.clear();
 
 
             // Draw the string
-            window.draw(text);
+            window.draw(Joueur1);
+            window.draw(Joueur2);
 
     		//player1.dessinerHitbox(player1.getHitboxPerso(), &window);
 
