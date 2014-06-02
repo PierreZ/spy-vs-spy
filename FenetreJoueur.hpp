@@ -48,7 +48,7 @@ class FenetreJoueur//: public sf::Drawable, public sf::Transformable
     private:
 
         
-
+        Text Joueur;
         sf::VertexArray m_vertices;
         sf::Texture m_tileset;
 
